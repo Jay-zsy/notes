@@ -1,7 +1,66 @@
 -- Drop and recreate Users table (Example)
 
-DROP TABLE IF EXISTS users CASCADE;
-CREATE TABLE users (
+DROP TABLE IF EXISTS users
+CASCADE;
+DROP TABLE IF EXISTS categories
+CASCADE;
+DROP TABLE IF EXISTS resources
+CASCADE;
+DROP TABLE IF EXISTS comments
+CASCADE;
+DROP TABLE IF EXISTS likes
+CASCADE;
+DROP TABLE IF EXISTS ratings
+CASCADE;
+
+CREATE TABLE users
+(
   id SERIAL PRIMARY KEY NOT NULL,
-  name VARCHAR(255) NOT NULL
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255),
+  password VARCHAR(255),
+  profile_pic TEXT,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+CREATE TABLE categories
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  title VARCHAR(75),
+  thumbnail TEXT
+);
+
+CREATE TABLE resources
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  description TEXT,
+  url TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+CREATE TABLE comments
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE,
+  created_at TIMESTAMP DEFAULT now(),
+  message TEXT NOT NULL
+);
+
+CREATE TABLE likes
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE
+);
+
+CREATE TABLE ratings
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE,
+  rating SMALLINT CHECK (rating <= 5)
 );
