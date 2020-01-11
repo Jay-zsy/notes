@@ -72,8 +72,14 @@ VALUES
     --article
     (2, 2, 'Pseudo-classes', 'Article on css pseudo-classes.', 'https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes'),
     --article
+    (2, 1, 'What time is it?', 'An article on the Javasript get date methods.', 'https://www.w3schools.com/js/js_date_methods.asp'),
+    --article
+    (2, 1, 'Using requestAnimationFrame', 'An article on the request animation frame function.', 'https://css-tricks.com/using-requestanimationframe'),
+    --article
     (2, 2, 'Boxes', 'An comprehensive article on the box model.', 'https://www.w3schools.com/css/css_boxmodel.asp'),
     --article
+    (2, 2, 'CSS Bootstrap', 'An comprehensive documentation provided by bootstrap.', 'https://getbootstrap.com/docs/4.4/getting-started/introduction'),
+    --documentation
     (2, 2, 'CSS Basics course', 'An comprehensive CSS course provided by MIT and Harvard.', 'https://www.edx.org/course/css-basics'),
     --online course
     (2, 2, 'Using CSS animations', 'An comprehensive article on using CSS animations.', 'https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations'),
@@ -88,4 +94,5 @@ VALUES
     --video
     (2, 1, '=>', 'Arrows, Arrows, Arrows, Arrows, Arrows EVERYWHERE!!!', 'https://www.youtube.com/watch?v=mrYMzpbFz18');
     --video
+
 
