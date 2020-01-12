@@ -83,9 +83,6 @@ const updateUserWithId = function(db, newParams) {
   queryParams.push(newParams.userId);
   queryString += `WHERE users.id = $${queryParams.length} RETURNING *`;
 
-  console.log(queryString);
-  console.log(queryParams);
-
   return db
     .query(queryString, queryParams)
     .then(res => {
@@ -132,39 +129,54 @@ exports.addUser = addUser;
 ///RESOURCES
 //get all resources depending on the options
 const getAllResources = function(db, options, limit = 20) {
-  console.log(options);
   const queryParams = [];
   let queryString = `
-    SELECT DISTINCT *
+    SELECT resources.*, count(likes.resource_id) as number_of_likes, round(avg(ratings.rating),2) as average_rating
     FROM resources
+    LEFT OUTER JOIN likes ON likes.resource_id = resources.id
     LEFT OUTER JOIN ratings ON ratings.resource_id = resources.id
-    LEFT OUTER JOIN likes ON likes.resource_id = resources.id `;
+  `;
 
-  if (options.category) {
-    queryParams.push(options.category);
-    queryString += `WHERE resources.category_id = $${queryParams.length} `;
+  if (options.userId) {
+    queryParams.push(options.userId);
+    queryString += `WHERE (likes.user_id = $${queryParams.length} OR resources.owner_id = $${queryParams.length}) `;
+  }
+
+  if (options.category_id) {
+    queryParams.push(`${options.category_id}`);
+
+    if (queryParams.length > 1) {
+      queryString += `AND resources.category_id = $${queryParams.length} `;
+    } else {
+      queryString += `WHERE resources.category_id = $${queryParams.length} `;
+    }
   }
 
   if (options.keyword) {
     queryParams.push(`%${options.keyword.toUpperCase()}%`);
 
     if (queryParams.length > 1) {
-      queryString += `AND upper(title) LIKE $${queryParams.length} `;
+      queryString += `AND (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
     } else {
-      querySting += `WHERE upper(title) LIKE $${queryParams.length} `;
+      queryString += `WHERE (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
     }
   }
 
   queryString += `
-    GROUP BY properties.id
+    GROUP BY resources.id
   `;
-  if (options.ratings) {
-    queryParams.push(`${options.ratings}`);
-    queryString += `HAVING avg(rating) >= $${queryParams.length}`;
+
+  if (options.rating) {
+    queryParams.push(`${options.rating}`);
+    queryString += `HAVING avg(ratings.rating) >= $${queryParams.length}`;
   }
 
   queryParams.push(limit);
-  queryString += `LIMIT $${queryParams.length}`;
+  queryString += `
+    ORDER BY number_of_likes DESC, resources.id
+    LIMIT $${queryParams.length};
+  `;
+
   console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
