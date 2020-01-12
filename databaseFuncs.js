@@ -132,9 +132,12 @@ exports.addUser = addUser;
 ///RESOURCES
 //get all resources depending on the options
 const getAllResources = function(db, options, limit = 20) {
-  let queryString = ``;
-  const queryParams = []; //build up based on options
-
+  const queryParams = [];
+  let queryString = `
+    SELECT *
+    FROM resources
+    LIMIT $1;`;
+  queryParams.push(limit);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows)
