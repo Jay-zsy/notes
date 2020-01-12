@@ -18,12 +18,13 @@ exports.getUserWithEmail = getUserWithEmail;
 
 //Get a single user from the database given their id
 const getUserWithId = function(db, userId) {
+  let queryParams = [];
+
   let queryString = `
     SELECT *
     FROM users
     WHERE users.id = $1; `;
 
-  let queryParams = [];
   queryParams.push(userId);
 
   return db
@@ -38,19 +39,19 @@ const getUserWithId = function(db, userId) {
 };
 exports.getUserWithId = getUserWithId;
 
-//edit current user profile
-const updateUserWithId = function(db, newParams) {
+//Edit current user profile
+const updateUserWithId = function(db, newUserParams) {
   let queryParams = [];
 
   let queryString = `
     UPDATE users `;
 
-  if (newParams.name) {
+  if (newUserParams.name) {
     queryParams.push(`${newParams.name}`);
     queryString += `SET name = $${queryParams.length} `;
   }
 
-  if (newParams.email) {
+  if (newUserParams.email) {
     queryParams.push(`${newParams.email}`);
 
     if (queryParams.length > 1) {
@@ -60,7 +61,7 @@ const updateUserWithId = function(db, newParams) {
     }
   }
 
-  if (newParams.password) {
+  if (newUserParams.password) {
     queryParams.push(`${newParams.password}`);
 
     if (queryParams.length > 1) {
@@ -70,7 +71,7 @@ const updateUserWithId = function(db, newParams) {
     }
   }
 
-  if (newParams.profile_pic) {
+  if (newUserParams.profile_pic) {
     queryParams.push(`${newParams.profile_pic}`);
 
     if (queryParams.length > 1) {
@@ -174,10 +175,25 @@ const getAllResources = function(db, options, limit = 20) {
 exports.getAllResources = getAllResources;
 
 //Add new resource
-const addResource = function(db, resources) {
-  let queryString = ``;
-  const queryParams = [];
-
+const addResource = function(db, newResourceParams) {
+  // console.log(newResourceParams);
+  const queryParams = [
+    newResourceParams.owner_id,
+    newResourceParams.category_id,
+    newResourceParams.title
+  ];
+  let queryString = `
+    INSERT INTO resources
+      (owner_id, category_id, title, description, url)
+    VALUES($1, $2, $3, $4, $5) `;
+  if (newResourceParams.description) {
+    queryParams.push(newResourceParams.description);
+  } else {
+    queryParams.push(null);
+  }
+  queryParams.push(newResourceParams.url);
+  queryString += `RETURNING *`;
+  console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows[0])
@@ -186,3 +202,21 @@ const addResource = function(db, resources) {
     });
 };
 exports.addResource = addResource;
+
+//Delete a resource
+const deleteResource = function(db, resource_Id) {
+  let queryParams = [resource_Id];
+  let queryString = `
+    UPDATE resources
+    SET is_active = false
+    WHERE resources.id = $1
+    RETURNING * `;
+  // console.log(queryString, queryParams);
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows[0])
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.deleteResource = deleteResource;

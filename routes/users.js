@@ -47,10 +47,10 @@ module.exports = db => {
   });
 
   router.post("/me", (req, res) => {
-    const { ...newParams } = req.body;
-    newParams.userId = req.session.userId;
+    const { ...newUserParams } = req.body;
+    newUserParams.userId = req.session.userId;
 
-    databaseFuncs.updateUserWithId(db, newParams).then(user => {
+    databaseFuncs.updateUserWithId(db, newUserParams).then(user => {
       res.json(user);
       console.log(user);
       // res.render("usersProfile", user);
@@ -67,13 +67,11 @@ module.exports = db => {
     if (req.session.userId) {
       res.redirect("/");
     }
-
     res.render("register");
   });
 
   router.post("/new", (req, res) => {
     const newUserParams = req.body;
-
     databaseFuncs.addUser(db, newUserParams).then(user => {
       req.session.userId = user.id;
       res.redirect("/");

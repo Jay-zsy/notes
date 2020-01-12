@@ -23,6 +23,27 @@ module.exports = db => {
     });
   });
 
-  router.post("/new", (req, res) => {});
+  router.post("/new", (req, res) => {
+    // console.log(req.body);
+
+    const { ...newResourceParams } = req.body;
+    newResourceParams.owner_id = req.session.userId;
+
+    databaseFuncs.addResource(db, newResourceParams).then(data => {
+      // console.log("im the data ", data);
+      res.redirect("index", { data });
+      res.status(200);
+    });
+  });
+
+  router.get("/delete/:id", (req, res) => {
+    //this alongside some other endpoints needs to be changed using method override to satisfy the RESTful convention
+
+    databaseFuncs.deleteResource(db, req.params.id).then(data => {
+      console.log("im the data ", data);
+      res.redirect("index", { data });
+      res.status(200);
+    });
+  });
   return router;
 };
