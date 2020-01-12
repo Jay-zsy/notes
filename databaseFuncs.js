@@ -152,6 +152,16 @@ const getAllResources = function(db, options, limit = 20) {
     }
   }
 
+  if (options.content_type) {
+    queryParams.push(`${options.content_type}`);
+
+    if (queryParams.length > 1) {
+      queryString += `AND resources.content_type = $${queryParams.length} `;
+    } else {
+      queryString += `WHERE resources.content_type = $${queryParams.length} `;
+    }
+  }
+
   if (options.keyword) {
     queryParams.push(`%${options.keyword.toUpperCase()}%`);
 
