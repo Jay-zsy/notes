@@ -7,7 +7,6 @@
 
 const express = require("express");
 const router = express.Router();
-
 const databaseFuncs = require("../databaseFuncs");
 
 module.exports = db => {

@@ -1,14 +1,10 @@
 /*
- * All routes for Widgets are defined here
- * Since this file is loaded in server.js into api/widgets,
- *   these routes are mounted onto /widgets
- * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
+ * All routes for Resources are defined here
  */
-
-const databaseFuncs = require("../databaseFuncs");
 
 const express = require("express");
 const router = express.Router();
+const databaseFuncs = require("../databaseFuncs");
 
 module.exports = db => {
   router.get("/", (req, res) => {
@@ -17,9 +13,11 @@ module.exports = db => {
     if (!userId) {
       res.redirect("/");
     }
-    const options = req.body;
-    databaseFuncs.getAllResources(db, options, 20).then(data => {
-      console.log(data);
+
+    // const options = req.body;
+    // console.log(options);
+    databaseFuncs.getAllResources(db, null, 2).then(data => {
+      console.log("im here ", data);
       res.render("index", { data });
       res.status(200);
     });
