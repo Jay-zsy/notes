@@ -132,7 +132,6 @@ exports.addUser = addUser;
 ///RESOURCES
 //get all resources depending on the options
 const getAllResources = function(db, options, limit = 20) {
-  console.log(options);
   const queryParams = [];
   let queryString = `
     SELECT DISTINCT *
@@ -140,31 +139,30 @@ const getAllResources = function(db, options, limit = 20) {
     LEFT OUTER JOIN ratings ON ratings.resource_id = resources.id
     LEFT OUTER JOIN likes ON likes.resource_id = resources.id `;
 
-  if (options.category) {
-    queryParams.push(options.category);
+  if (options.category_id) {
+    queryParams.push(options.category_id);
     queryString += `WHERE resources.category_id = $${queryParams.length} `;
   }
 
   if (options.keyword) {
     queryParams.push(`%${options.keyword.toUpperCase()}%`);
-
     if (queryParams.length > 1) {
       queryString += `AND upper(title) LIKE $${queryParams.length} `;
     } else {
-      querySting += `WHERE upper(title) LIKE $${queryParams.length} `;
+      queryString += `WHERE upper(title) LIKE $${queryParams.length} `;
     }
   }
 
   queryString += `
-    GROUP BY properties.id
+    GROUP BY resources.id, ratings.id, likes.id
   `;
   if (options.ratings) {
     queryParams.push(`${options.ratings}`);
-    queryString += `HAVING avg(rating) >= $${queryParams.length}`;
+    queryString += `HAVING avg(ratings.rating) >= $${queryParams.length} `;
   }
 
   queryParams.push(limit);
-  queryString += `LIMIT $${queryParams.length}`;
+  queryString += `LIMIT $${queryParams.length} `;
   console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
@@ -175,7 +173,7 @@ const getAllResources = function(db, options, limit = 20) {
 };
 exports.getAllResources = getAllResources;
 
-//add new resource
+//Add new resource
 const addResource = function(db, resources) {
   let queryString = ``;
   const queryParams = [];

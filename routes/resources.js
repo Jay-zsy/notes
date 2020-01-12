@@ -14,13 +14,15 @@ module.exports = db => {
       res.redirect("/");
     }
 
-    // const options = req.body;
-    // console.log(options);
-    databaseFuncs.getAllResources(db, null, 2).then(data => {
-      console.log("im here ", data);
+    const options = req.query;
+    console.log(options);
+    databaseFuncs.getAllResources(db, options).then(data => {
+      console.log("im the data ", data);
       res.render("index", { data });
       res.status(200);
     });
   });
+
+  router.post("/new", (req, res) => {});
   return router;
 };
