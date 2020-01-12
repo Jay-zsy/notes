@@ -174,7 +174,7 @@ const getAllResources = function(db, options, limit = 20) {
 };
 exports.getAllResources = getAllResources;
 
-//Add new resource
+//// Add new resource
 const addResource = function(db, newResourceParams) {
   // console.log(newResourceParams);
   const queryParams = [
@@ -203,7 +203,7 @@ const addResource = function(db, newResourceParams) {
 };
 exports.addResource = addResource;
 
-//Delete a resource
+//// Delete a resource
 const deleteResource = function(db, resource_Id) {
   let queryParams = [resource_Id];
   let queryString = `
@@ -212,6 +212,52 @@ const deleteResource = function(db, resource_Id) {
     WHERE resources.id = $1
     RETURNING * `;
   // console.log(queryString, queryParams);
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows[0])
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.deleteResource = deleteResource;
+
+//// Edit an existing resource
+//// THIS ROUTE HAS NOT BEEN TESTED, HIGHLY DEPENDENT ON FRONTEND ////
+const editResource = function(db, newResourceParams) {
+  let queryParams = [];
+  let queryString = `
+    UPDATE resources `;
+  if (newResourceParams.category_id) {
+    queryParams.push(newResourceParams.category_id);
+    queryString += `SET category_id = $${queryParams.length} `;
+  }
+  if (newResourceParams.title) {
+    queryParams.push(`${newResourceParams.title}`);
+    if (queryParams.length > 1) {
+      queryString += `, title = $${queryParams.length} `;
+    } else {
+      queryString += `SET title = $${queryParams.length} `;
+    }
+  }
+  if (newResourceParams.description) {
+    queryParams.push(`${newResourceParams.description}`);
+    if (queryParams.length > 1) {
+      queryString += `, description = $${queryParams.length} `;
+    } else {
+      queryString += `SET description = $${queryParams.length} `;
+    }
+  }
+  if (newResourceParams.url) {
+    queryParams.push(`${newResourceParams.url}`);
+    if (queryParams.length > 1) {
+      queryString += `, url = $${queryParams.length} `;
+    } else {
+      queryString += `SET url = $${queryParams.length} `;
+    }
+  }
+  queryParams.push(newResourceParams.resource_Id); //expecting a key from the front/route
+  queryString += `WHERE resources.id = ${queryParams.length} RETURNING *`;
+  console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows[0])
