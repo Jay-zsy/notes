@@ -8,6 +8,8 @@
 const express = require("express");
 const router = express.Router();
 
+const databaseFuncs = require("../databaseFuncs");
+
 module.exports = db => {
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM users;`)
@@ -37,8 +39,23 @@ module.exports = db => {
       return;
     }
 
-    //function to query database to get user info
-    res.json(userId);
+    databaseFuncs.getUserWithId(db, userId).then(user => {
+      console.log(user);
+      res.render("usersProfile", user);
+    });
+  });
+
+  router.post("/me", (req, res) => {
+    const { ...newParams } = req.body;
+    newParams.userId = req.session.userId;
+
+    databaseFuncs.updateUserWithId(db, newParams).then(user => {
+      res.json(user);
+      console.log(user);
+      // res.render("usersProfile", user);
+    });
+
+    // res.status(200);
   });
 
   router.post("/new", (req, res) => {
