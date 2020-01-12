@@ -32,6 +32,8 @@ module.exports = db => {
     res.redirect("/");
   });
 
+  //---------------------USER PROFILE-------------------------//
+
   router.get("/me", (req, res) => {
     const userId = req.session.userId;
     if (!userId) {
@@ -58,9 +60,25 @@ module.exports = db => {
     // res.status(200);
   });
 
+  //----------------------------------------------------------//
+
+  //---------------------NEW USER-------------------------//
+
+  router.get("/new", (req, res) => {
+    if (req.session.userId) {
+      res.redirect("/");
+    }
+
+    res.render("register");
+  });
+
   router.post("/new", (req, res) => {
-    const user = req.body;
-    //function to insert user into database
+    const newUserParams = req.body;
+
+    databaseFuncs.addUser(db, newUserParams).then(user => {
+      req.session.userId = user.id;
+      res.redirect("/");
+    });
   });
 
   return router;

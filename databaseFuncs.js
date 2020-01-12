@@ -99,10 +99,24 @@ const updateUserWithId = function(db, newParams) {
 exports.updateUserWithId = updateUserWithId;
 
 //Add a new user to the database
-const addUser = function(db, user) {
-  let queryString = ``;
-  let queryParams = [];
-  queryParams.push(user.name, user.email, user.password, user.profilePic);
+const addUser = function(db, newUserParams) {
+  let queryParams = [
+    newUserParams.name,
+    newUserParams.email,
+    newUserParams.password
+  ];
+
+  let queryString = `
+    INSERT INTO users
+    (name, email, password, profile_pic)
+    VALUES ($1, $2, $3, $4)
+    RETURNING *`;
+
+  if (newUserParams.profile_pic) {
+    queryParams.push(newUserParams.profile_pic);
+  } else {
+    queryParams.push(null);
+  }
 
   return db
     .query(queryString, queryParams)
