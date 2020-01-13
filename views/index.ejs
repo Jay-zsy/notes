@@ -13,12 +13,14 @@
     />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
   <body>
-    <h1>Hello World!</h1>
-    <i class="far fa-heart"></i>
+    <%-include("./partials/header") %>
+    
+    <!-- <i class="far fa-heart"></i>
     <i class="fas fa-heart"></i>
     <i class="far fa-star"></i>
     <i class="fas fa-star"></i>
@@ -28,14 +30,14 @@
     <i class="fas fa-edit"></i>
     <i class="fas fa-arrow-up"></i>
     <i class="far fa-file"></i>
-    <i class="fas fa-file"></i>
+    <i class="fas fa-file"></i> -->
 
-    <form class="form-inline" action="/api/resources" method="GET">
+    <!-- <form class="form-inline" action="/api/resources" method="GET">
       <div class="form-group mb-2" style="margin: 0 auto">
-          <input class="form-control" type="hidden" name="userId" value=2 >
+          <input class="form-control" type="hidden" name="userId" value=1 >
           <button type="submit" class="btn btn-primary">My resources</button>
         </div>
-    </form>
+    </form> -->
 
     <!-- This is the card section -->
 
@@ -43,25 +45,39 @@
 
       <% for(let el of data) { %>
 
-        <div class="card">
+        <div class="card" height="500px">
           <header>
-            <img class="img-thumbnail" src="<%= el.owner_profile_pic %>" width="100px" height="100px" alt="User profile picture">
-            <p> <%= el.owner_name %> </p>
-            <i class="far fa-trash-alt"></i>
-            <i class="far fa-edit"></i>
+            <div>
+              <img class="img-thumbnail" src="<%= el.owner_profile_pic %>" alt="User profile picture">
+              <p> <%= el.owner_name %> </p>
+            </div>
+            <div>
+              <i class="far fa-edit"></i>
+              <i class="far fa-trash-alt"></i>
+            </div>
+
+
           </header>
           <div class="card-body">
           <content>
-            <a href="<%= el.url %>"> <h5 class="card-title"><%= el.title %></h5> </a>
+            <a href="<%= el.url %>" target="#blank"> <h5 class="card-title"><%= el.title %></h5> </a>
               <p class="card-text"><%= el.description %></p>
           </content>
           <img class="img-thumbnail" src="<%= el.category_thumbnail %>" width="100px" height="100px" alt="Category image">
         </div>
           <footer class="text-muted">
-            <i class="far fa-heart"></i> <%= el.number_of_likes %>
-            <i class="far fa-comment-dots"></i> CHAT
-            <i class="far fa-star"></i> <%= el.average_rating %>
+            <div>
+              <i class="far fa-heart"></i> <%= el.number_of_likes %>
+            </div>
+            <div>
+              <i class="far fa-comment-dots"></i> CHAT
+            </div>
+            <div>
+              <i class="far fa-star"></i> <%= el.average_rating %>
             <i class="fas fa-star"></i>
+            </div>
+
+
           </footer>
         </div>
 
@@ -94,35 +110,6 @@
         </div>
     <div class="card-footer text-muted"></div>
   </div>
-
-  <!-- this is the new post section -->
-
-  <div class="card text-center">
-    <div class="card-header"></div>
-
-    <div class="card-body">
-        <h4 class="card-title">What's good out there? </h4>
-        <p class="card-text">
-          <form class="form-inline" action="/api/resources/new" method="POST">
-            <div class="form-group mb-2" style="margin: 0 auto">
-              <label for="title">Title:</label>
-                <input class="form-control" type="text" name="title" placeholder="title" style="width: 300px; margin: 1em">
-              <label for="email">Category:</label>
-                <input class="form-control" type="number" name="category_id" placeholder="3" style="width: 300px; margin: 1em">
-                <label for="description">Description:</label>
-                <input class="form-control" type="text" name="description" placeholder="say something about it" style="width: 300px; margin: 1em">
-                <label for="url">link:</label>
-                <input class="form-control" type="text" name="url" placeholder="url" style="width: 300px; margin: 1em">
-                <label for="url">content type:</label>
-                <input class="form-control" type="text" name="content_type" placeholder="video" style="width: 300px; margin: 1em">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-          </form>
-
-        </p>
-      </div>
-  <div class="card-footer text-muted"></div>
-</div>
 
   </body>
 </html>

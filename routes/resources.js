@@ -24,6 +24,13 @@ module.exports = db => {
     });
   });
 
+  //// Getting to the creation page
+  router.get("/new", (req, res) => {
+    if (req.session.userId) {
+      res.render("newResource");
+    }
+  });
+
   //// Submit a new resource
   router.post("/new", (req, res) => {
     console.log(req.body);
