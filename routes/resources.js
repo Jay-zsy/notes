@@ -14,10 +14,8 @@ module.exports = db => {
       res.redirect("/");
     }
 
-    const options = req.query;
-    console.log(options);
-    databaseFuncs.getAllResources(db, options).then(data => {
-      console.log("im the data ", data);
+    let options = req.query;
+    databaseFuncs.getAllResources(db, options, 50).then(data => {
       res.render("index", { data });
       res.status(200);
     });
