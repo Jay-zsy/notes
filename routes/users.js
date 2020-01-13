@@ -21,15 +21,21 @@ module.exports = db => {
       });
   });
 
-  router.get("/login/:id", (req, res) => {
-    req.session.userId = req.params.id;
-    res.redirect("/");
+  router.get("/login", (req, res) => {
+    //if they are already signed in
+    if (req.session.userId) {
+      res.redirect("/");
+      return;
+    }
+    res.render("login");
   });
 
   router.get("/logout", (req, res) => {
     req.session.userId = null;
     res.redirect("/");
   });
+
+  router.post("/login", (req, res) => {});
 
   //---------------------USER PROFILE-------------------------//
 

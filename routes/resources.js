@@ -33,7 +33,7 @@ module.exports = db => {
 
     databaseFuncs.addResource(db, newResourceParams).then(data => {
       // console.log("im the data ", data);
-      res.redirect("index", { data });
+      res.redirect("/");
       res.status(200);
     });
   });
@@ -46,7 +46,7 @@ module.exports = db => {
 
     databaseFuncs.deleteResource(db, req.params.id).then(data => {
       console.log("im the data ", data);
-      res.redirect("index", { data });
+      res.redirect("/");
       res.status(200);
     });
   });
@@ -61,7 +61,7 @@ module.exports = db => {
     newResourceParams.owner_id = req.session.userId; //not sure if we need to pass this into the fn
     databaseFuncs.editResource(db, newResourceParams).then(data => {
       console.log("im the data ", data);
-      res.redirect("index", { data });
+      res.redirect("/");
       res.status(200);
     });
   });
