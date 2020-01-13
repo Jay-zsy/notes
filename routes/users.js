@@ -11,16 +11,16 @@ const databaseFuncs = require("../databaseFuncs");
 
 module.exports = db => {
   // MOST LIKELY NOT GONNA USE THIS ROUTE LUL
-  // router.get("/", (req, res) => {
-  //   db.query(`SELECT * FROM users;`)
-  //     .then(data => {
-  //       const users = data.rows;
-  //       res.json({ users });
-  //     })
-  //     .catch(err => {
-  //       res.status(500).json({ error: err.message });
-  //     });
-  // });
+  router.get("/", (req, res) => {
+    db.query(`SELECT * FROM users;`)
+      .then(data => {
+        const users = data.rows;
+        res.json({ users });
+      })
+      .catch(err => {
+        res.status(500).json({ error: err.message });
+      });
+  });
 
   router.get("/login", (req, res) => {
     //if they are already signed in
