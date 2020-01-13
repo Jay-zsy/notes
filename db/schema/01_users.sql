@@ -19,7 +19,7 @@ CREATE TABLE users
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  profile_pic TEXT,
+  profile_pic VARCHAR(255) DEFAULT 'https://ca.slack-edge.com/T2G8TE2E5-U7986LU3B-gfe9d9417cb2-48',
   created_at TIMESTAMP DEFAULT now(),
   is_active BOOLEAN DEFAULT true
 );
