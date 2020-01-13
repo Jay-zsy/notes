@@ -37,35 +37,36 @@
         </div>
     </form>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Owner</th>
-          <th scope="col">title</th>
-          <th scope="col">description</th>
-          <th scope="col">content type</th>
-          <th scope="col">#likes</th>
-          <th scope="col">rating</th>
-          <th scope="col">category thumbnail</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for(let el of data) { %>
-          <tr>
-            <td><%= el.owner_name%></td>
-            <td><%= el.title%></td>
-            <td><%= el.description%></td>
-            <td><%= el.content_type%></td>
-            <td><%= el.number_of_likes%></td>
-            <td><%= el.average_rating%></td>
-            <td><%= el.category_thumbnail%></td>
-          </tr>
-        <% } %>
-      </tbody>
-    </table>
-
     <!-- This is the card section -->
 
+    <div class="card-columns">
+
+      <% for(let el of data) { %>
+
+        <div class="card">
+          <header>
+            <img class="img-thumbnail" src="<%= el.owner_profile_pic %>" width="100px" height="100px" alt="User profile picture">
+            <p> <%= el.owner_name %> </p>
+            <i class="far fa-trash-alt"></i>
+            <i class="far fa-edit"></i>
+          </header>
+          <div class="card-body">
+          <content>
+              <h5 class="card-title"><%= el.title %></h5>
+              <p class="card-text"><%= el.description %></p>
+          </content>
+          <img class="img-thumbnail" src="<%= el.category_thumbnail %>" width="100px" height="100px" alt="Category image">
+        </div>
+          <footer class="text-muted">
+            <i class="far fa-heart"></i> <%= el.number_of_likes %>
+            <i class="far fa-comment-dots"></i> CHAT
+            <i class="far fa-star"></i> <%= el.average_rating %>
+            <i class="fas fa-star"></i>
+          </footer>
+        </div>
+
+      <% } %>
+    </div>
 
     <!-- this is the search bar -->
 
