@@ -1,7 +1,7 @@
 INSERT INTO categories
     (title, thumbnail)
 VALUES
-    ('Javascript', 'exampleJS.com'),
-    ('CSS', 'exampleCSS.com'),
-    ('HTML', 'exampleHTML.com'),
-    ('SQL', 'exampleSQL.com');
+    ('Javascript', 'https://cdn.worldvectorlogo.com/logos/javascript.svg'),
+    ('CSS', 'https://cdn.worldvectorlogo.com/logos/css-5.svg'),
+    ('HTML', 'https://cdn.worldvectorlogo.com/logos/html5.svg'),
+    ('SQL', 'https://cdn.worldvectorlogo.com/logos/postgresql.svg');
