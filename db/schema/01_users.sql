@@ -36,6 +36,7 @@ CREATE TABLE resources
   id SERIAL PRIMARY KEY NOT NULL,
   owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
+  content_type VARCHAR(255) NOT NULL,
   title TEXT NOT NULL,
   description TEXT,
   url TEXT NOT NULL,

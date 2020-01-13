@@ -8,16 +8,17 @@ const databaseFuncs = require("../databaseFuncs");
 
 module.exports = db => {
   router.get("/", (req, res) => {
+    //right now this works for all intended routes as long as for the 'my resources route' we send the userId within the request, not assign it within here. if we do it in here, a user will only ever see their own posts!
+    //im thinking we use ajax for that one
     const userId = req.session.userId;
 
     if (!userId) {
       res.redirect("/");
     }
 
-    const options = req.query;
-    console.log(options);
-    databaseFuncs.getAllResources(db, options).then(data => {
-      console.log("im the data ", data);
+    let options = req.query;
+
+    databaseFuncs.getAllResources(db, options, 60).then(data => {
       res.render("index", { data });
       res.status(200);
     });
@@ -25,15 +26,16 @@ module.exports = db => {
 
   //// Submit a new resource
   router.post("/new", (req, res) => {
-    // console.log(req.body);
+    console.log(req.body);
     // if (req.session.userId) then allow else send 403
 
     const { ...newResourceParams } = req.body;
     newResourceParams.owner_id = req.session.userId;
 
     databaseFuncs.addResource(db, newResourceParams).then(data => {
-      // console.log("im the data ", data);
-      res.redirect("/");
+      console.log("im the data ", data);
+      // res.redirect("index", { data });         ///this redirect is not working
+      res.redirect("/api/resources");
       res.status(200);
     });
   });

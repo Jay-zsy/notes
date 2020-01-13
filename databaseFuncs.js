@@ -1,14 +1,23 @@
+const bcrypt = require("bcrypt");
+
 //USERS
 //Get a single user from the database given their email
-const getUserWithEmail = function(db, email) {
-  let queryString = ``;
-  let queryParams = [];
-  queryParams.push(email);
+const getUserWithEmail = function(db, loginInput) {
+  let queryParams = [loginInput.email];
+  let queryString = `
+    SELECT *
+    FROM users
+    WHERE users.email = $1 `;
 
   return db
     .query(queryString, queryParams)
     .then(res => {
-      return res.rows[0];
+      if (bcrypt.compareSync(loginInput.password, res.rows[0].password)) {
+        return res.rows[0];
+      } else {
+        console.log("goes here");
+        return ""; //this means they fucked up n pw is wrong
+      }
     })
     .catch(err => {
       console.error("query error", err.stack);
@@ -18,15 +27,11 @@ exports.getUserWithEmail = getUserWithEmail;
 
 //Get a single user from the database given their id
 const getUserWithId = function(db, userId) {
-  let queryParams = [];
-
+  let queryParams = [userId];
   let queryString = `
     SELECT *
     FROM users
     WHERE users.id = $1; `;
-
-  queryParams.push(userId);
-
   return db
     .query(queryString, queryParams)
     .then(res => {
@@ -84,9 +89,6 @@ const updateUserWithId = function(db, newUserParams) {
   queryParams.push(newParams.userId);
   queryString += `WHERE users.id = $${queryParams.length} RETURNING *`;
 
-  console.log(queryString);
-  console.log(queryParams);
-
   return db
     .query(queryString, queryParams)
     .then(res => {
@@ -104,7 +106,7 @@ const addUser = function(db, newUserParams) {
   let queryParams = [
     newUserParams.name,
     newUserParams.email,
-    newUserParams.password
+    bcrypt.hashSync(newUserParams.password, 10)
   ];
 
   let queryString = `
@@ -135,36 +137,61 @@ exports.addUser = addUser;
 const getAllResources = function(db, options, limit = 20) {
   const queryParams = [];
   let queryString = `
-    SELECT DISTINCT *
+    SELECT resources.*, count(likes.resource_id) as number_of_likes, round(avg(ratings.rating),2) as average_rating
     FROM resources
+    LEFT OUTER JOIN likes ON likes.resource_id = resources.id
     LEFT OUTER JOIN ratings ON ratings.resource_id = resources.id
-    LEFT OUTER JOIN likes ON likes.resource_id = resources.id `;
+  `;
+
+  if (options.userId) {
+    queryParams.push(options.userId);
+    queryString += `WHERE (likes.user_id = $${queryParams.length} OR resources.owner_id = $${queryParams.length}) `;
+  }
 
   if (options.category_id) {
-    queryParams.push(options.category_id);
-    queryString += `WHERE resources.category_id = $${queryParams.length} `;
+    queryParams.push(`${options.category_id}`);
+
+    if (queryParams.length > 1) {
+      queryString += `AND resources.category_id = $${queryParams.length} `;
+    } else {
+      queryString += `WHERE resources.category_id = $${queryParams.length} `;
+    }
+  }
+
+  if (options.content_type) {
+    queryParams.push(`${options.content_type}`);
+
+    if (queryParams.length > 1) {
+      queryString += `AND resources.content_type = $${queryParams.length} `;
+    } else {
+      queryString += `WHERE resources.content_type = $${queryParams.length} `;
+    }
   }
 
   if (options.keyword) {
     queryParams.push(`%${options.keyword.toUpperCase()}%`);
     if (queryParams.length > 1) {
-      queryString += `AND upper(title) LIKE $${queryParams.length} `;
+      queryString += `AND (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
     } else {
-      queryString += `WHERE upper(title) LIKE $${queryParams.length} `;
+      queryString += `WHERE (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
     }
   }
 
   queryString += `
-    GROUP BY resources.id, ratings.id, likes.id
+    GROUP BY resources.id
   `;
-  if (options.ratings) {
-    queryParams.push(`${options.ratings}`);
-    queryString += `HAVING avg(ratings.rating) >= $${queryParams.length} `;
+
+  if (options.rating) {
+    queryParams.push(`${options.rating}`);
+    queryString += `HAVING avg(ratings.rating) >= $${queryParams.length}`;
   }
 
   queryParams.push(limit);
-  queryString += `LIMIT $${queryParams.length} `;
-  console.log(queryString, queryParams);
+  queryString += `
+    ORDER BY resources.created_at DESC, number_of_likes DESC, resources.id
+    LIMIT $${queryParams.length};
+  `;
+
   return db
     .query(queryString, queryParams)
     .then(res => res.rows)
@@ -176,24 +203,26 @@ exports.getAllResources = getAllResources;
 
 //// Add new resource
 const addResource = function(db, newResourceParams) {
-  // console.log(newResourceParams);
   const queryParams = [
     newResourceParams.owner_id,
     newResourceParams.category_id,
-    newResourceParams.title
+    newResourceParams.title,
+    newResourceParams.url,
+    newResourceParams.content_type
   ];
   let queryString = `
     INSERT INTO resources
-      (owner_id, category_id, title, description, url)
-    VALUES($1, $2, $3, $4, $5) `;
+      (owner_id, category_id, title, url, content_type, description)
+    VALUES($1, $2, $3, $4, $5, $6) `;
+
   if (newResourceParams.description) {
     queryParams.push(newResourceParams.description);
   } else {
     queryParams.push(null);
   }
-  queryParams.push(newResourceParams.url);
+
   queryString += `RETURNING *`;
-  console.log(queryString, queryParams);
+
   return db
     .query(queryString, queryParams)
     .then(res => res.rows[0])
