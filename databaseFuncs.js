@@ -183,11 +183,10 @@ const getAllResources = function(db, options, limit = 20) {
 
   queryParams.push(limit);
   queryString += `
-    ORDER BY number_of_likes DESC, resources.id
+    ORDER BY resources.created_at DESC, number_of_likes DESC, resources.id
     LIMIT $${queryParams.length};
   `;
 
-  console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows)
@@ -199,24 +198,26 @@ exports.getAllResources = getAllResources;
 
 //// Add new resource
 const addResource = function(db, newResourceParams) {
-  // console.log(newResourceParams);
   const queryParams = [
     newResourceParams.owner_id,
     newResourceParams.category_id,
-    newResourceParams.title
+    newResourceParams.title,
+    newResourceParams.url,
+    newResourceParams.content_type
   ];
   let queryString = `
     INSERT INTO resources
-      (owner_id, category_id, title, description, url)
-    VALUES($1, $2, $3, $4, $5) `;
+      (owner_id, category_id, title, url, content_type, description)
+    VALUES($1, $2, $3, $4, $5, $6) `;
+
   if (newResourceParams.description) {
     queryParams.push(newResourceParams.description);
   } else {
     queryParams.push(null);
   }
-  queryParams.push(newResourceParams.url);
+
   queryString += `RETURNING *`;
-  console.log(queryString, queryParams);
+
   return db
     .query(queryString, queryParams)
     .then(res => res.rows[0])

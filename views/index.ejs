@@ -43,7 +43,7 @@
           <th scope="col">Owner</th>
           <th scope="col">title</th>
           <th scope="col">description</th>
-          <th scope="col">url</th>
+          <th scope="col">content type</th>
           <th scope="col">#likes</th>
           <th scope="col">rating</th>
         </tr>
@@ -54,7 +54,7 @@
             <td><%= el.owner_id%></td>
             <td><%= el.title%></td>
             <td><%= el.description%></td>
-            <td><%= el.url%></td>
+            <td><%= el.content_type%></td>
             <td><%= el.number_of_likes%></td>
             <td><%= el.average_rating%></td>
           </tr>
@@ -107,6 +107,8 @@
                 <input class="form-control" type="text" name="description" placeholder="say something about it" style="width: 300px; margin: 1em">
                 <label for="url">link:</label>
                 <input class="form-control" type="text" name="url" placeholder="url" style="width: 300px; margin: 1em">
+                <label for="url">content type:</label>
+                <input class="form-control" type="text" name="content_type" placeholder="video" style="width: 300px; margin: 1em">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
           </form>
@@ -114,7 +116,7 @@
         </p>
       </div>
   <div class="card-footer text-muted"></div>
-</div>  
+</div>
 
   </body>
 </html>
