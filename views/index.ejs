@@ -46,17 +46,19 @@
           <th scope="col">content type</th>
           <th scope="col">#likes</th>
           <th scope="col">rating</th>
+          <th scope="col">category thumbnail</th>
         </tr>
       </thead>
       <tbody>
         <% for(let el of data) { %>
           <tr>
-            <td><%= el.owner_id%></td>
+            <td><%= el.owner_name%></td>
             <td><%= el.title%></td>
             <td><%= el.description%></td>
             <td><%= el.content_type%></td>
             <td><%= el.number_of_likes%></td>
             <td><%= el.average_rating%></td>
+            <td><%= el.category_thumbnail%></td>
           </tr>
         <% } %>
       </tbody>
