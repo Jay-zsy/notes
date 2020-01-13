@@ -5,9 +5,17 @@
   box-sizing: border-box;
 }
 
-
 body {
   background-color: #EEE;
+
+  a {
+    color: #252525;
+  }
+
+  a:hover {
+    color: #252525;
+    text-decoration: none;
+  }
 
   h1 {
     color: #244751;
