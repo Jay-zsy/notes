@@ -45,8 +45,9 @@ module.exports = db => {
 
   //// Getting to the creation page
   router.get("/new", auth, (req, res) => {
+    const userId = res.locals.user;
     if (req.session.userId) {
-      res.render("newResource");
+      res.render("newResource", { userId });
     } else {
       res.redirect("/api/users/login");
     }
@@ -85,8 +86,8 @@ module.exports = db => {
     const resource_id = req.params.id;
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
-      console.log(data);
-      res.render("editResource", { data });
+      const userId = res.locals.user;
+      res.render("editResource", { data, userId });
     });
   });
 

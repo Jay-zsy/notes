@@ -61,13 +61,14 @@ module.exports = db => {
   router.get("/me", auth, (req, res) => {
     const userId = req.session.userId;
     if (!userId) {
-      res.send({ message: "not logged in" });
+      res.redirect("/login");
       return;
     }
 
     databaseFuncs.getUserWithId(db, userId).then(user => {
       console.log(moment(user.created_at));
-      res.render("usersProfile", { user });
+      const userId = res.locals.user;
+      res.render("usersProfile", { user, userId });
     });
   });
 
