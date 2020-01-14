@@ -57,7 +57,7 @@ module.exports = db => {
 
   //---------------------USER PROFILE-------------------------//
 
-  router.get("/me", (req, res) => {
+  router.get("/me", auth, (req, res) => {
     const userId = req.session.userId;
     if (!userId) {
       res.send({ message: "not logged in" });
@@ -70,7 +70,7 @@ module.exports = db => {
     });
   });
 
-  router.post("/me", (req, res) => {
+  router.post("/me", auth, (req, res) => {
     const { ...newUserParams } = req.body;
     newUserParams.userId = req.session.userId;
 

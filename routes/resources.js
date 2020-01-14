@@ -19,7 +19,6 @@ module.exports = db => {
 
     databaseFuncs.getAllResources(db, options, 60).then(data => {
       data.push(res.locals.user);
-      console.log(data);
       res.render("index", { data });
       res.status(200);
     });
