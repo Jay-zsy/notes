@@ -5,9 +5,10 @@
 const express = require("express");
 const router = express.Router();
 const databaseFuncs = require("../databaseFuncs");
+const auth = require("../middleware/auth");
 
 module.exports = db => {
-  router.get("/", (req, res) => {
+  router.get("/", auth, (req, res) => {
     const userId = req.session.userId;
 
     if (!userId) {
@@ -17,12 +18,14 @@ module.exports = db => {
     let options = req.query;
 
     databaseFuncs.getAllResources(db, options, 60).then(data => {
+      data.push(res.locals.user);
+      console.log(data);
       res.render("index", { data });
       res.status(200);
     });
   });
 
-  router.get("/myResources", (req, res) => {
+  router.get("/myResources", auth, (req, res) => {
     const userId = req.session.userId;
 
     if (!userId) {
@@ -33,13 +36,14 @@ module.exports = db => {
     options.userId = userId;
 
     databaseFuncs.getAllResources(db, options, 60).then(data => {
+      data.push(res.locals.user);
       res.render("index", { data });
       res.status(200);
     });
   });
 
   //// Getting to the creation page
-  router.get("/new", (req, res) => {
+  router.get("/new", auth, (req, res) => {
     if (req.session.userId) {
       res.render("newResource");
     } else {
@@ -48,7 +52,7 @@ module.exports = db => {
   });
 
   //// Submit a new resource
-  router.post("/new", (req, res) => {
+  router.post("/new", auth, (req, res) => {
     console.log(req.body);
     // if (req.session.userId) then allow else send 403
 
@@ -64,7 +68,7 @@ module.exports = db => {
   });
 
   //// 'Delete' an existing resource
-  router.post("/delete/:id", (req, res) => {
+  router.post("/delete/:id", auth, (req, res) => {
     //this alongside some other endpoints needs to be changed using method override to satisfy the RESTful convention
 
     // if req.session.userId !== owner_id then send back 403
@@ -76,7 +80,7 @@ module.exports = db => {
     });
   });
 
-  router.get("/edit/:id", (req, res) => {
+  router.get("/edit/:id", auth, (req, res) => {
     const resource_id = req.params.id;
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
@@ -86,7 +90,7 @@ module.exports = db => {
   });
 
   //// Edit an existing resource
-  router.post("/edit/:id", (req, res) => {
+  router.post("/edit/:id", auth, (req, res) => {
     // if req.session.userId !== owner_id then send back 403
     // need a way to validate owner_id to user_id (inside the fn or here in the route?)
     const { ...newResourceParams } = req.body;
@@ -102,7 +106,7 @@ module.exports = db => {
     });
   });
 
-  router.get("/edit", (req, res) => {
+  router.get("/edit", auth, (req, res) => {
     const resource_id = req.body;
     console.log(resource_id);
   });

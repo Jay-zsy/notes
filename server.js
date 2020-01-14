@@ -11,6 +11,7 @@ const app = express();
 const morgan = require("morgan");
 const cookieSession = require("cookie-session");
 const databaseFuncs = require("./databaseFuncs");
+const auth = require("./middleware/auth");
 
 app.use(
   cookieSession({
@@ -57,7 +58,7 @@ app.use("/api/resources", resourcesRoutes(db));
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
-app.get("/", (req, res) => {
+app.get("/", auth, (req, res) => {
   const userId = req.session.userId;
 
   if (!userId) {
@@ -67,6 +68,7 @@ app.get("/", (req, res) => {
   const options = {};
 
   databaseFuncs.getAllResources(db, options, 60).then(data => {
+    data.push(res.locals.user);
     res.render("index", { data });
     res.status(200);
   });
