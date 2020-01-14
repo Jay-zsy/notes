@@ -42,6 +42,8 @@ module.exports = db => {
   router.get("/new", (req, res) => {
     if (req.session.userId) {
       res.render("newResource");
+    } else {
+      res.redirect("/api/users/login");
     }
   });
 
