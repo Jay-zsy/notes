@@ -12,16 +12,16 @@ const moment = require("moment");
 
 module.exports = db => {
   // MOST LIKELY NOT GONNA USE THIS ROUTE LUL
-  router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        const users = data.rows;
-        res.json({ users });
-      })
-      .catch(err => {
-        res.status(500).json({ error: err.message });
-      });
-  });
+  // router.get("/", (req, res) => {
+  //   db.query(`SELECT * FROM users;`)
+  //     .then(data => {
+  //       const users = data.rows;
+  //       res.json({ users });
+  //     })
+  //     .catch(err => {
+  //       res.status(500).json({ error: err.message });
+  //     });
+  // });
 
   router.get("/login", (req, res) => {
     //if they are already signed in
@@ -44,6 +44,7 @@ module.exports = db => {
       .then(userInfo => {
         if (userInfo) {
           req.session.userId = userInfo.id;
+          console.log("In post login: ", req.session.userId);
           res.redirect("/");
         } else {
           res.status(404).render("register");
