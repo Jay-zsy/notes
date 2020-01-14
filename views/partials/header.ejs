@@ -8,6 +8,9 @@
   <nav style="height: 86px" class="navbar navbar-expand-md">
     <a class="navbar-brand" href="/api/resources"></a>
 
+    <% if(typeof userId !== 'undefined') { %>
+    <p><%= userId %></p>
+    <% } %>
     <div class="btn-group">
       <button
         type="button"
