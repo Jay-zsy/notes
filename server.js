@@ -10,6 +10,7 @@ const sass = require("node-sass-middleware");
 const app = express();
 const morgan = require("morgan");
 const cookieSession = require("cookie-session");
+const databaseFuncs = require("./databaseFuncs");
 
 app.use(
   cookieSession({
@@ -57,7 +58,18 @@ app.use("/api/resources", resourcesRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
-  res.redirect("/api/resources");
+  const userId = req.session.userId;
+
+  if (!userId) {
+    res.redirect("/api/users/login");
+  }
+
+  const options = {};
+
+  databaseFuncs.getAllResources(db, options, 60).then(data => {
+    res.render("index", { data });
+    res.status(200);
+  });
 });
 
 app.listen(PORT, () => {
