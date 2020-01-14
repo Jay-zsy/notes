@@ -19,6 +19,7 @@
         <i class="fas fa-ellipsis-h"></i>
       </button>
       <div class="dropdown-menu dropdown-menu-right">
+        <% if(data[data.length-1]) { %>
         <button class="dropdown-item" type="button">
           <a href="/api/resources/myResources">My Resources</a>
         </button>
@@ -29,11 +30,16 @@
           <a href="/api/resources/new">New Post</a>
         </button>
         <button class="dropdown-item" type="button">
+          <a href="/api/users/logout">Logout</a>
+        </button>
+        <% } else { %>
+        <button class="dropdown-item" type="button">
           <a href="/api/users/login">Login</a>
         </button>
         <button class="dropdown-item" type="button">
-          <a href="/api/users/logout">Logout</a>
+          <a href="/api/users/new">Register</a>
         </button>
+        <% } %>
       </div>
     </div>
   </nav>

@@ -9,6 +9,7 @@ const express = require("express");
 const router = express.Router();
 const databaseFuncs = require("../databaseFuncs");
 const moment = require("moment");
+const auth = require("../middleware/auth");
 
 module.exports = db => {
   // MOST LIKELY NOT GONNA USE THIS ROUTE LUL
