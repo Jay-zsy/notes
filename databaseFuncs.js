@@ -143,40 +143,48 @@ const getAllResources = function(db, options, limit = 20) {
     LEFT OUTER JOIN ratings ON ratings.resource_id = resources.id
     LEFT OUTER JOIN users ON resources.owner_id = users.id
     LEFT OUTER JOIN categories ON resources.category_id = categories.id
+    WHERE resources.is_active = true
   `;
 
   if (options.userId) {
     queryParams.push(options.userId);
-    queryString += `WHERE (likes.user_id = $${queryParams.length} OR resources.owner_id = $${queryParams.length}) `;
+    queryString += `AND (likes.user_id = $${queryParams.length} OR resources.owner_id = $${queryParams.length}) `;
   }
 
   if (options.category_id) {
     queryParams.push(`${options.category_id}`);
 
-    if (queryParams.length > 1) {
-      queryString += `AND resources.category_id = $${queryParams.length} `;
-    } else {
-      queryString += `WHERE resources.category_id = $${queryParams.length} `;
-    }
+    queryString += `AND resources.category_id = $${queryParams.length} `;
+
+    // if (queryParams.length > 1) {
+    //   queryString += `AND resources.category_id = $${queryParams.length} `;
+    // } else {
+    //   queryString += `WHERE resources.category_id = $${queryParams.length} `;
+    // }
   }
 
   if (options.content_type) {
     queryParams.push(`${options.content_type}`);
 
-    if (queryParams.length > 1) {
-      queryString += `AND resources.content_type = $${queryParams.length} `;
-    } else {
-      queryString += `WHERE resources.content_type = $${queryParams.length} `;
-    }
+    queryString += `AND resources.content_type = $${queryParams.length} `;
+
+    // if (queryParams.length > 1) {
+    //   queryString += `AND resources.content_type = $${queryParams.length} `;
+    // } else {
+    //   queryString += `WHERE resources.content_type = $${queryParams.length} `;
+    // }
   }
 
   if (options.keyword) {
     queryParams.push(`%${options.keyword.toUpperCase()}%`);
-    if (queryParams.length > 1) {
-      queryString += `AND (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
-    } else {
-      queryString += `WHERE (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
-    }
+
+    queryString += `AND (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
+
+    // if (queryParams.length > 1) {
+    //   queryString += `AND (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
+    // } else {
+    //   queryString += `WHERE (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
+    // }
   }
 
   queryString += `
@@ -194,6 +202,7 @@ const getAllResources = function(db, options, limit = 20) {
     LIMIT $${queryParams.length};
   `;
 
+  console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows)
