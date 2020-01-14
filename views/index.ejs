@@ -46,7 +46,7 @@
             />
             <p><%= el.owner_name %></p>
           </div>
-          <% if(el.owner_id === userId) { %>
+          <% if(el.owner_id === user.id) { %>
           <div>
             <a href="/api/resources/edit/<%= el.id %>"
               ><i class="far fa-edit"></i

@@ -18,8 +18,8 @@ module.exports = db => {
     let options = req.query;
 
     databaseFuncs.getAllResources(db, options, 60).then(data => {
-      const userId = res.locals.user;
-      res.render("index", { data, userId });
+      const user = res.locals.user;
+      res.render("index", { data, user });
       // res.render("index", { data });
       res.status(200);
     });
@@ -36,8 +36,8 @@ module.exports = db => {
     options.userId = userId;
 
     databaseFuncs.getAllResources(db, options, 60).then(data => {
-      const userId = res.locals.user;
-      res.render("index", { data, userId });
+      const user = res.locals.user;
+      res.render("index", { data, user });
       // res.render("index", { data });
       res.status(200);
     });
@@ -45,9 +45,9 @@ module.exports = db => {
 
   //// Getting to the creation page
   router.get("/new", auth, (req, res) => {
-    const userId = res.locals.user;
+    const user = res.locals.user;
     if (req.session.userId) {
-      res.render("newResource", { userId });
+      res.render("newResource", { user });
     } else {
       res.redirect("/api/users/login");
     }
@@ -86,8 +86,8 @@ module.exports = db => {
     const resource_id = req.params.id;
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
-      const userId = res.locals.user;
-      res.render("editResource", { data, userId });
+      const user = res.locals.user;
+      res.render("editResource", { data, user });
     });
   });
 

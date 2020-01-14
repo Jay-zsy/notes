@@ -67,8 +67,7 @@ module.exports = db => {
 
     databaseFuncs.getUserWithId(db, userId).then(user => {
       console.log(moment(user.created_at));
-      const userId = res.locals.user;
-      res.render("usersProfile", { user, userId });
+      res.render("usersProfile", { user });
     });
   });
 
