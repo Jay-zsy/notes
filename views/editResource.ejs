@@ -31,10 +31,10 @@
         <div>
           <img
             class="img-thumbnail"
-            src="<%= el.owner_profile_pic %>"
+            src="<%= data.owner_profile_pic %>"
             alt="User profile picture"
           />
-          <p><%= el.owner_name %></p>
+          <p><%= data.owner_name %></p>
         </div>
         <div>
           <i class="far fa-trash-alt"></i>
@@ -42,14 +42,14 @@
       </header>
       <div class="card-body">
         <content>
-          <a href="<%= el.url %>" target="#blank">
-            <h5 class="card-title"><%= el.title %></h5>
+          <a href="<%= data.url %>" target="#blank">
+            <h5 class="card-title"><%= data.title %></h5>
           </a>
-          <p class="card-text"><%= el.description %></p>
+          <p class="card-text"><%= data.description %></p>
         </content>
         <img
           class="img-thumbnail"
-          src="<%= el.category_thumbnail %>"
+          src="<%= data.category_thumbnail %>"
           width="200px"
           height="200px"
           alt="Category image"
@@ -57,14 +57,14 @@
       </div>
       <footer class="text-muted">
         <div>
-            <i class="far fa-heart"></i> <%= el.number_of_likes %>
+            <i class="far fa-heart"></i> <%= data.number_of_likes %>
         </div>
         <i class="far fa-comment-dots"></i>
         <div>
-          <i class="far fa-star"></i> <%= el.average_rating %>
+          <i class="far fa-star"></i> <%= data.average_rating %>
           <i class="fas fa-star"></i>
         </div>
-        <%= el.created_at %>
+        <%= data.created_at %>
       </footer>
     </div>
   </body>
