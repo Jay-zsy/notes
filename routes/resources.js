@@ -76,8 +76,16 @@ module.exports = db => {
     });
   });
 
+  router.get("/edit/:id", (req, res) => {
+    const resource_id = req.params.id;
+
+    databaseFuncs.getResourceFromId(db, resource_id).then(data => {
+      res.render("editResource");
+    });
+  });
+
   //// Edit an existing resource
-  router.post("/edit", (req, res) => {
+  router.post("/edit/", (req, res) => {
     // if req.session.userId !== owner_id then send back 403
     // need a way to validate owner_id to user_id (inside the fn or here in the route?)
     const { ...newResourceParams } = req.body;

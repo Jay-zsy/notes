@@ -79,7 +79,9 @@
             <p><%= el.owner_name %></p>
           </div>
           <div>
-            <i class="far fa-edit"></i>
+            <a href="/api/resources/edit/<%= el.id %>"
+              ><i class="far fa-edit"></i
+            ></a>
             <i class="far fa-trash-alt"></i>
           </div>
         </header>
