@@ -25,9 +25,19 @@ body {
     }
   }
 
+  .sidebar {
+    position: fixed;
+    top: 120px;
+    right: 0px;
+    width: 25%;
+    // .form-row {
+    //   width
+    // }
+  }
+
   .card-columns {
     margin-top: 120px;
-    width: 80%;
+    width: 75%;
     padding: 2rem;
   }
 
