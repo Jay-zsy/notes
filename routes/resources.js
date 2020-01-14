@@ -86,10 +86,12 @@ module.exports = db => {
   });
 
   //// Edit an existing resource
-  router.post("/edit/", (req, res) => {
+  router.post("/edit/:id", (req, res) => {
     // if req.session.userId !== owner_id then send back 403
     // need a way to validate owner_id to user_id (inside the fn or here in the route?)
     const { ...newResourceParams } = req.body;
+    newResourceParams.resource_Id = req.params.id;
+    console.log(newResourceParams);
     // how the fuck do we get the resource_id from the front to back?
     // will we just expect the resource_id to be already in the req.body?
     newResourceParams.owner_id = req.session.userId; //not sure if we need to pass this into the fn

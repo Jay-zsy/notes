@@ -310,7 +310,7 @@ const editResource = function(db, newResourceParams) {
     }
   }
   queryParams.push(newResourceParams.resource_Id); //expecting a key from the front/route
-  queryString += `WHERE resources.id = ${queryParams.length} RETURNING *`;
+  queryString += `WHERE resources.id = $${queryParams.length} RETURNING *`;
   console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
@@ -319,4 +319,4 @@ const editResource = function(db, newResourceParams) {
       console.error("query error", err.stack);
     });
 };
-exports.deleteResource = deleteResource;
+exports.editResource = editResource;
