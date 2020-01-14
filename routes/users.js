@@ -8,6 +8,7 @@
 const express = require("express");
 const router = express.Router();
 const databaseFuncs = require("../databaseFuncs");
+const moment = require("moment");
 
 module.exports = db => {
   // MOST LIKELY NOT GONNA USE THIS ROUTE LUL
@@ -63,8 +64,8 @@ module.exports = db => {
     }
 
     databaseFuncs.getUserWithId(db, userId).then(user => {
-      console.log(user);
-      res.render("usersProfile", user);
+      console.log(moment(user.created_at));
+      res.render("usersProfile", { user });
     });
   });
 

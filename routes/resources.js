@@ -98,5 +98,10 @@ module.exports = db => {
       res.status(200);
     });
   });
+
+  router.get("/edit", (req, res) => {
+    const resource_id = req.body;
+    console.log(resource_id);
+  });
   return router;
 };

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css"
+      type="text/css"
+    />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+
+    <title>NOTES - Edit Post </title>
+  <body>
+  
+  <!-- this is the new post section -->
+  <%-include("./partials/header") %>
+
+ 
+    <div class="card" height="1000px">
+      <header>
+        <div>
+          <img
+            class="img-thumbnail"
+            src="<%= el.owner_profile_pic %>"
+            alt="User profile picture"
+          />
+          <p><%= el.owner_name %></p>
+        </div>
+        <div>
+          <i class="far fa-trash-alt"></i>
+        </div>
+      </header>
+      <div class="card-body">
+        <content>
+          <a href="<%= el.url %>" target="#blank">
+            <h5 class="card-title"><%= el.title %></h5>
+          </a>
+          <p class="card-text"><%= el.description %></p>
+        </content>
+        <img
+          class="img-thumbnail"
+          src="<%= el.category_thumbnail %>"
+          width="200px"
+          height="200px"
+          alt="Category image"
+        />
+      </div>
+      <footer class="text-muted">
+        <div>
+            <i class="far fa-heart"></i> <%= el.number_of_likes %>
+        </div>
+        <i class="far fa-comment-dots"></i>
+        <div>
+          <i class="far fa-star"></i> <%= el.average_rating %>
+          <i class="fas fa-star"></i>
+        </div>
+        <%= el.created_at %>
+      </footer>
+    </div>
+  </body>
+  </html>
