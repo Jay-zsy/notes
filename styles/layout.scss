@@ -12,6 +12,8 @@ body {
     position: fixed;
     z-index: 99;
     top: 0;
+    //fader for logo
+    background: linear-gradient(rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
 
     .navbar {
       display: flex;
@@ -19,7 +21,7 @@ body {
       align-items: center;
       width: 100vw;
       height: 80px;
-      background-color: white;
+      // background-color: white;
     }
   }
 
