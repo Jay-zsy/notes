@@ -1,16 +1,16 @@
 <form class="sidebar" action="/api/resources" method="GET">
+  <h3>Search Resources</h3>
   <div class="form-row align-items-center">
     <div class="col-auto my-1">
       <input
         type="text"
-        class="form-control"
+        class="form-control search-field"
         name="keyword"
         placeholder="Keyword"
       />
-      <!-- <label class="mr-sm-2" for="inlineFormCustomSelect">Category</label> -->
       <select
         name="category_id"
-        class="custom-select mr-sm-2"
+        class="custom-select mr-sm-2 search-field"
         id="inlineFormCustomSelect"
       >
         <option selected value="">Categories...</option>
@@ -19,10 +19,9 @@
         <option value="3">HTML</option>
         <option value="4">SQL</option>
       </select>
-      <!-- <label class="mr-sm-2" for="inlineFormCustomSelect">Rating</label> -->
       <select
         name="rating"
-        class="custom-select mr-sm-2"
+        class="custom-select mr-sm-2 search-field"
         id="inlineFormCustomSelect"
       >
         <option selected value="">Rating...</option>
@@ -32,13 +31,12 @@
         <option value="4">4</option>
         <option value="5">5</option>
       </select>
-      <!-- <label class="mr-sm-2" for="inlineFormCustomSelect">Content Type</label> -->
       <select
         name="content_type"
-        class="custom-select mr-sm-2"
+        class="custom-select mr-sm-2 search-field"
         id="inlineFormCustomSelect"
       >
-        <option selected value="">Content...</option>
+        <option selected value="">Content Type...</option>
         <option value="Video">Video</option>
         <option value="Game">Game</option>
         <option value="Documentation">Documentation</option>
@@ -47,7 +45,7 @@
         <option value="Interactive sandbox">Interactive Sandbox</option>
         <option value="Online Course">Online Course</option>
       </select>
-      <button type="submit" class="btn btn-primary">Search</button>
+      <button type="submit" class="btn btn-primary search-field">Search</button>
     </div>
   </div>
 </form>
