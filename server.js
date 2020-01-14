@@ -68,8 +68,8 @@ app.get("/", auth, (req, res) => {
   const options = {};
 
   databaseFuncs.getAllResources(db, options, 60).then(data => {
-    data.push(res.locals.user);
-    res.render("index", { data });
+    const userId = res.locals.user;
+    res.render("index", { data, userId });
     res.status(200);
   });
 });

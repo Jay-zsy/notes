@@ -18,8 +18,9 @@ module.exports = db => {
     let options = req.query;
 
     databaseFuncs.getAllResources(db, options, 60).then(data => {
-      data.push(res.locals.user);
-      res.render("index", { data });
+      const userId = res.locals.user;
+      res.render("index", { data, userId });
+      // res.render("index", { data });
       res.status(200);
     });
   });
@@ -35,8 +36,9 @@ module.exports = db => {
     options.userId = userId;
 
     databaseFuncs.getAllResources(db, options, 60).then(data => {
-      data.push(res.locals.user);
-      res.render("index", { data });
+      const userId = res.locals.user;
+      res.render("index", { data, userId });
+      // res.render("index", { data });
       res.status(200);
     });
   });
