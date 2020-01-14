@@ -80,7 +80,7 @@ module.exports = db => {
     const resource_id = req.params.id;
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
-      res.render("editResource");
+      res.render("editResource", { data });
     });
   });
 
