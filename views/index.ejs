@@ -26,6 +26,11 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script type="text/javascript" src="/scripts/blotter.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/fliesMaterial.min.js"
+    ></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
 
     <title>Home Page</title>
@@ -34,26 +39,31 @@
   <body>
     <%-include("./partials/header") %>
 
-    <!-- <i class="far fa-heart"></i>
-    <i class="fas fa-heart"></i>
-    <i class="far fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="far fa-trash-alt"></i>
-    <i class="fas fa-trash-alt"></i>
-    <i class="far fa-edit"></i>
-    <i class="fas fa-edit"></i>
-    <i class="fas fa-arrow-up"></i>
-    <i class="far fa-file"></i>
-    <i class="fas fa-file"></i> -->
+    <script>
+      let text = new Blotter.Text("NOTES", {
+        family: "Monsterrat",
+        size: 75,
+        weight: 700,
+        fill: "#000",
+        paddingLeft: 18,
+        paddingRight: 50,
+        paddingTop: 74,
+        paddingBottom: 50
+      });
 
-    <!-- <form class="form-inline" action="/api/resources" method="GET">
-      <div class="form-group mb-2" style="margin: 0 auto">
-          <input class="form-control" type="hidden" name="userId" value=1 >
-          <button type="submit" class="btn btn-primary">My resources</button>
-        </div>
-    </form> -->
+      let material = new Blotter.FliesMaterial();
+      material.uniforms.uPointCellWidth.value = 0.01;
+      material.uniforms.uPointRadius.value = 1;
+      material.uniforms.uSpeed.value = 4;
 
-    <!-- This is the card section -->
+      let blotter = new Blotter(material, {
+        texts: text
+      });
+
+      let scope = blotter.forText(text);
+
+      scope.appendTo(document.querySelector(".navbar-brand"));
+    </script>
 
     <div class="card-columns">
       <% for(let el of data) { %>
@@ -90,7 +100,7 @@
         </div>
         <footer class="text-muted">
           <div><i class="far fa-heart"></i> <%= el.number_of_likes %></div>
-          <div><i class="far fa-comment-dots"></i> CHAT</div>
+          <i class="far fa-comment-dots"></i>
           <div>
             <i class="far fa-star"></i> <%= el.average_rating %>
             <i class="fas fa-star"></i>
@@ -102,5 +112,7 @@
     </div>
 
     <%-include("./partials/sidebar") %>
+
+    <footer class="footer-faded"></footer>
   </body>
 </html>

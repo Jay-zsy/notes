@@ -1,9 +1,18 @@
 <form class="sidebar" action="/api/resources" method="GET">
   <div class="form-row align-items-center">
     <div class="col-auto my-1">
-      <input type="text" class="form-control" name="keyword" placeholder="Keyword">
+      <input
+        type="text"
+        class="form-control"
+        name="keyword"
+        placeholder="Keyword"
+      />
       <!-- <label class="mr-sm-2" for="inlineFormCustomSelect">Category</label> -->
-      <select name="category_id" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+      <select
+        name="category_id"
+        class="custom-select mr-sm-2"
+        id="inlineFormCustomSelect"
+      >
         <option selected value="">Categories...</option>
         <option value="1">Javascript</option>
         <option value="2">CSS</option>
@@ -11,7 +20,11 @@
         <option value="4">SQL</option>
       </select>
       <!-- <label class="mr-sm-2" for="inlineFormCustomSelect">Rating</label> -->
-      <select name="rating" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+      <select
+        name="rating"
+        class="custom-select mr-sm-2"
+        id="inlineFormCustomSelect"
+      >
         <option selected value="">Rating...</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -20,7 +33,11 @@
         <option value="5">5</option>
       </select>
       <!-- <label class="mr-sm-2" for="inlineFormCustomSelect">Content Type</label> -->
-      <select name="content_type" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+      <select
+        name="content_type"
+        class="custom-select mr-sm-2"
+        id="inlineFormCustomSelect"
+      >
         <option selected value="">Content...</option>
         <option value="Video">Video</option>
         <option value="Game">Game</option>
@@ -32,5 +49,5 @@
       </select>
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
-
+  </div>
 </form>
