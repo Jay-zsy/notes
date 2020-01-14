@@ -33,7 +33,7 @@ module.exports = db => {
 
   router.get("/logout", (req, res) => {
     req.session.userId = null;
-    res.redirect("/");
+    res.redirect("login");
   });
 
   router.post("/login", (req, res) => {

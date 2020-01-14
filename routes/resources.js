@@ -11,7 +11,7 @@ module.exports = db => {
     const userId = req.session.userId;
 
     if (!userId) {
-      res.redirect("/");
+      res.redirect("/api/users/login");
     }
 
     let options = req.query;
@@ -26,7 +26,7 @@ module.exports = db => {
     const userId = req.session.userId;
 
     if (!userId) {
-      res.redirect("/");
+      res.redirect("/api/users/login");
     }
 
     let options = {};
@@ -36,6 +36,13 @@ module.exports = db => {
       res.render("index", { data });
       res.status(200);
     });
+  });
+
+  //// Getting to the creation page
+  router.get("/new", (req, res) => {
+    if (req.session.userId) {
+      res.render("newResource");
+    }
   });
 
   //// Submit a new resource
