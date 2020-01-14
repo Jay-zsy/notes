@@ -26,11 +26,6 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="/scripts/blotter.min.js"></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/fliesMaterial.min.js"
-    ></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
 
     <title>Home Page</title>
@@ -39,35 +34,8 @@
   <body>
     <%-include("./partials/header") %>
 
-    <script>
-      let text = new Blotter.Text("NOTES", {
-        family: "Monsterrat",
-        size: 75,
-        weight: 700,
-        fill: "#000",
-        paddingLeft: 18,
-        paddingRight: 50,
-        paddingTop: 74,
-        paddingBottom: 50
-      });
-
-      let material = new Blotter.FliesMaterial();
-      material.uniforms.uPointCellWidth.value = 0.01;
-      material.uniforms.uPointRadius.value = 1;
-      material.uniforms.uSpeed.value = 4;
-
-      let blotter = new Blotter(material, {
-        texts: text
-      });
-
-      let scope = blotter.forText(text);
-
-      scope.appendTo(document.querySelector(".navbar-brand"));
-    </script>
-
     <div class="card-columns">
       <% for(let el of data) { %>
-
       <div class="card" height="500px">
         <header>
           <div>

@@ -1,3 +1,9 @@
+<script type="text/javascript" src="/scripts/blotter.min.js"></script>
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/fliesMaterial.min.js"
+></script>
+
 <div class="header">
   <nav style="height: 86px" class="navbar navbar-expand-md">
     <a class="navbar-brand" href="/api/resources"></a>
@@ -32,3 +38,29 @@
     </div>
   </nav>
 </div>
+
+<script>
+  let text = new Blotter.Text("N O T E S", {
+    family: "Monsterrat",
+    size: 75,
+    weight: 700,
+    fill: "#000",
+    paddingLeft: 18,
+    paddingRight: 50,
+    paddingTop: 74,
+    paddingBottom: 50
+  });
+
+  let material = new Blotter.FliesMaterial();
+  material.uniforms.uPointCellWidth.value = 0.01;
+  material.uniforms.uPointRadius.value = 1;
+  material.uniforms.uSpeed.value = 4;
+
+  let blotter = new Blotter(material, {
+    texts: text
+  });
+
+  let scope = blotter.forText(text);
+
+  scope.appendTo(document.querySelector(".navbar-brand"));
+</script>
