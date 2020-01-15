@@ -14,140 +14,119 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css"
       type="text/css"
     />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
 
-    <title>NOTES - Edit Post </title>
+    <title>NOTES - Edit Post</title>
+  </head>
   <body>
-
-  <%-include("./partials/header") %>
+    <%-include("./partials/header") %>
 
     <div class="edit-post-container" style="margin: 120px">
       <div class="card" style="width: 60rem">
-      <header>
-        <div>
-          <img
-            class="img-thumbnail"
-            src="<%= data[0].owner_profile_pic %>"
-            alt="User profile picture"
-          />
-          <p><%= data[0].owner_name %></p>
-        </div>
-        <div>
-            <form action="/api/resources/delete/<%= data[0].id %>" method="POST">
-                <button type="submit">
-                  <i class="far fa-trash-alt"></i>
-                </button>
-              </form>
-        </div>
-      </header>
-      <form class="card-body" action="/api/resources/edit/<%= data[0].id %>" method="POST">
-        <content>
+        <header>
           <div>
-            <i class="far fa-edit"></i>
-            <input id="title-input" type="text" name="title" />
-            <a href="<%= data[0].url %>" target="#blank">
-              <h5 class="card-title"><%= data[0].title %></h5>
-            </a>
+            <img
+              class="img-thumbnail"
+              src="<%= data[0].owner_profile_pic %>"
+              alt="User profile picture"
+            />
+            <p><%= data[0].owner_name %></p>
           </div>
+          <div>
+            <form
+              action="/api/resources/delete/<%= data[0].id %>"
+              method="POST"
+            >
+              <button type="submit">
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </form>
+          </div>
+        </header>
+        <form
+          class="card-body"
+          action="/api/resources/edit/<%= data[0].id %>"
+          method="POST"
+        >
+          <content>
+            <div>
+              <i class="far fa-edit"></i>
+              <input id="title-input" type="text" name="title" />
+              <a href="<%= data[0].url %>" target="#blank">
+                <h5 class="card-title"><%= data[0].title %></h5>
+              </a>
+            </div>
+
+            <div>
+              <i class="far fa-edit"></i>
+              <input id="description-input" type="text" name="description" />
+              <p class="card-text"><%= data[0].description %></p>
+            </div>
+
+            <div>
+              <i class="far fa-edit"></i>
+              <input id="url-input" type="text" name="url" />
+              <h5 class="card-title">Link: <%= data[0].url %></h5>
+            </div>
+          </content>
+          <div class="picture-area">
+            <img
+              class="img-thumbnail"
+              src="<%= data[0].category_thumbnail %>"
+              width="200px"
+              height="200px"
+              alt="Category image"
+            />
+
+            <select
+              name="category_id"
+              class="custom-select mr-sm-2 search-field"
+            >
+              <option selected value="">Categories...</option>
+              <option value="1">Javascript</option>
+              <option value="2">CSS</option>
+              <option value="3">HTML</option>
+              <option value="4">SQL</option>
+            </select>
+
+            <select
+              name="content_type"
+              class="custom-select mr-sm-2 search-field"
+            >
+              <option selected value="">Content Type...</option>
+              <option value="Video">Video</option>
+              <option value="Game">Game</option>
+              <option value="Documentation">Documentation</option>
+              <option value="Article">Article</option>
+              <option value="Book">Book</option>
+              <option value="Interactive sandbox">Interactive Sandbox</option>
+              <option value="Online Course">Online Course</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+        <footer class="text-muted">
+          <div><i class="far fa-heart"></i> <%= data[0].number_of_likes %></div>
 
           <div>
-            <i class="far fa-edit"></i>
-            <input id="description-input" type="text" name="description" />
-            <p class="card-text"><%= data[0].description %></p>
+            <i class="far fa-star"></i> <%= data[0].average_rating %>
+            <i class="fas fa-star"></i>
           </div>
-
-          <div>
-            <i class="far fa-edit"></i>
-            <input id="url-input" type="text" name="url" />
-            <h5 class="card-title">Link: <%= data[0].url %></h5>
-          </div>
-        </content>
-        <div class="picture-area">
-          <img
-          class="img-thumbnail"
-          src="<%= data[0].category_thumbnail %>"
-          width="200px"
-          height="200px"
-          alt="Category image"
-          />
-
-          <select name="category_id" class="custom-select mr-sm-2 search-field">
-            <option selected value="">Categories...</option>
-            <option value="1">Javascript</option>
-            <option value="2">CSS</option>
-            <option value="3">HTML</option>
-            <option value="4">SQL</option>
-          </select>
-
-          <select name="content_type" class="custom-select mr-sm-2 search-field">
-            <option selected value="">Content Type...</option>
-            <option value="Video">Video</option>
-            <option value="Game">Game</option>
-            <option value="Documentation">Documentation</option>
-            <option value="Article">Article</option>
-            <option value="Book">Book</option>
-            <option value="Interactive sandbox">Interactive Sandbox</option>
-            <option value="Online Course">Online Course</option>
-          </select>
-        <button type="submit" class="btn btn-primary">Save</button>
-          
-        </div>
-
-      </form>
-      <footer class="text-muted">
-        <div>
-            <i class="far fa-heart"></i> <%= data[0].number_of_likes %>
-        </div>
-        
-        <div>
-          <i class="far fa-star"></i> <%= data[0].average_rating %>
-          <i class="fas fa-star"></i>
-        </div>
-        <%= data[0].created_at %>
-      </footer>
+          <%= data[0].created_at %>
+        </footer>
+      </div>
     </div>
-    </div>
-
-    <!-- <div class="card text-center" style="margin-top: 120px;">
-        <div class="card-header"></div>
-
-        <div class="card-body">
-            <h4 class="card-title">Edit Post? </h4>
-            <p class="card-text">
-              <form class="form-inline" action="/api/resources/edit/<%= data[0].id %>" method="POST">
-                <div class="form-group mb-2" style="margin: 0 auto">
-                  <label for="title">Title:</label>
-                    <input class="form-control" type="text" name="title" placeholder="title" style="width: 300px; margin: 1em">
-                    <label for="description">Description:</label>
-                    <input class="form-control" type="text" name="description" placeholder="say something about it" style="width: 300px; margin: 1em">
-                    <label for="url">link:</label>
-                    <input class="form-control" type="text" name="url" placeholder="url" style="width: 300px; margin: 1em">
-                    <select name="category_id" class="custom-select mr-sm-2 search-field">
-                        <option selected value="">Categories...</option>
-                        <option value="1">Javascript</option>
-                        <option value="2">CSS</option>
-                        <option value="3">HTML</option>
-                        <option value="4">SQL</option>
-                      </select>
-                    <select name="content_type" class="custom-select mr-sm-2 search-field">
-                        <option selected value="">Content Type...</option>
-                        <option value="Video">Video</option>
-                        <option value="Game">Game</option>
-                        <option value="Documentation">Documentation</option>
-                        <option value="Article">Article</option>
-                        <option value="Book">Book</option>
-                        <option value="Interactive sandbox">Interactive Sandbox</option>
-                        <option value="Online Course">Online Course</option>
-                      </select>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                  </div>
-              </form>
-
-            </p>
-          </div>
-      <div class="card-footer text-muted"></div> -->
   </body>
-  </html>
+</html>
