@@ -8,10 +8,12 @@ $(() => {
   //   }
   // });
   $(".fa-heart").click(function() {
-    console.log(this.id);
     $.ajax({
       method: "POST",
       url: `/api/resources/${this.id}/likes`
-    }).done();
+    }).done(data => {
+      $(`#${this.id}`).empty();
+      $(`#${this.id}`).text(data.number_of_likes);
+    });
   });
 });

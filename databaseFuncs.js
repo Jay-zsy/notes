@@ -335,13 +335,32 @@ const addLike = function(db, likeParams) {
   let queryString = `
     INSERT INTO likes (user_id, resource_id)
     VALUES ($1, $2)
+    RETURNING *
     `;
 
   return db
     .query(queryString, queryParams)
-    .then(res => res.rows[0])
+    .then(res => res.rows[0].resource_id)
     .catch(err => {
       console.error("query error", err.stack);
     });
 };
 exports.addLike = addLike;
+
+const countLikes = function(db, resource_id) {
+  const queryParams = [resource_id];
+  const queryString = `
+    SELECT count(likes.resource_id)
+    FROM likes
+    GROUP BY resource_id
+    HAVING resource_id = $1
+  `;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.countLikes = countLikes;
