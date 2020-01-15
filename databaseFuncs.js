@@ -354,11 +354,12 @@ const addNewComment = (db, newCommentParams) => {
   ];
   queryString = `
     INSERT INTO comments (user_id, resource_id, message)
-    VALUES ($1, $2, $3)`;
+    VALUES ($1, $2, $3)
+    RETURNING *`;
 
   return db
     .query(queryString, queryParams)
-    .then(res => res.rows)
+    .then(res => console.log(res.rows))
     .catch(err => {
       console.error("query error", err.stack);
     });
