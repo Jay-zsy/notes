@@ -15,7 +15,6 @@ const getUserWithEmail = function(db, loginInput) {
       if (bcrypt.compareSync(loginInput.password, res.rows[0].password)) {
         return res.rows[0];
       } else {
-        console.log("goes here");
         return ""; //this means they fucked up n pw is wrong
       }
     })
@@ -35,7 +34,6 @@ const getUserWithId = function(db, userId) {
   return db
     .query(queryString, queryParams)
     .then(res => {
-      console.log(res.rows[0]);
       return res.rows[0];
     })
     .catch(err => {
@@ -92,7 +90,6 @@ const updateUserWithId = function(db, newUserParams) {
   return db
     .query(queryString, queryParams)
     .then(res => {
-      console.log(res);
       return res.rows[0];
     })
     .catch(err => {
@@ -187,7 +184,6 @@ const getAllResources = function(db, options, limit = 20) {
     LIMIT $${queryParams.length};
   `;
 
-  console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows)
@@ -270,7 +266,6 @@ const deleteResource = function(db, resource_Id) {
     SET is_active = false
     WHERE resources.id = $1
     RETURNING * `;
-  // console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows[0])
@@ -316,7 +311,7 @@ const editResource = function(db, newResourceParams) {
   }
   queryParams.push(newResourceParams.resource_Id); //expecting a key from the front/route
   queryString += `WHERE resources.id = $${queryParams.length} RETURNING *`;
-  console.log(queryString, queryParams);
+
   return db
     .query(queryString, queryParams)
     .then(res => res.rows[0])
