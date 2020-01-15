@@ -55,14 +55,12 @@ module.exports = db => {
 
   //// Submit a new resource
   router.post("/new", auth, (req, res) => {
-    console.log(req.body);
     // if (req.session.userId) then allow else send 403
 
     const { ...newResourceParams } = req.body;
     newResourceParams.owner_id = req.session.userId;
 
     databaseFuncs.addResource(db, newResourceParams).then(data => {
-      console.log("im the data ", data);
       // res.redirect("index", { data });         ///this redirect is not working
       res.redirect("/api/resources");
       res.status(200);
@@ -76,7 +74,6 @@ module.exports = db => {
     // if req.session.userId !== owner_id then send back 403
 
     databaseFuncs.deleteResource(db, req.params.id).then(data => {
-      console.log("im the data ", data);
       res.redirect("/");
       res.status(200);
     });
@@ -97,20 +94,21 @@ module.exports = db => {
     // need a way to validate owner_id to user_id (inside the fn or here in the route?)
     const { ...newResourceParams } = req.body;
     newResourceParams.resource_Id = req.params.id;
-    console.log(newResourceParams);
+
     // how the fuck do we get the resource_id from the front to back?
     // will we just expect the resource_id to be already in the req.body?
     newResourceParams.owner_id = req.session.userId; //not sure if we need to pass this into the fn
     databaseFuncs.editResource(db, newResourceParams).then(data => {
-      console.log("im the data ", data);
       res.redirect("/");
       res.status(200);
     });
   });
 
-  router.get("/edit", auth, (req, res) => {
-    const resource_id = req.body;
+  //likes
+  router.post("/:id/likes", auth, (req, res) => {
+    const resource_id = req.params.id;
     console.log(resource_id);
   });
+
   return router;
 };

@@ -45,7 +45,6 @@ module.exports = db => {
       .then(userInfo => {
         if (userInfo) {
           req.session.userId = userInfo.id;
-          console.log("In post login: ", req.session.userId);
           res.redirect("/");
         } else {
           res.status(404).render("register");
@@ -66,7 +65,6 @@ module.exports = db => {
     }
 
     databaseFuncs.getUserWithId(db, userId).then(user => {
-      console.log(moment(user.created_at));
       res.render("usersProfile", { user });
     });
   });
@@ -77,7 +75,6 @@ module.exports = db => {
 
     databaseFuncs.updateUserWithId(db, newUserParams).then(user => {
       res.json(user);
-      console.log(user);
       // res.render("usersProfile", user);
     });
 
