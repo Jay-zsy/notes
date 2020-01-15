@@ -26,6 +26,10 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.5/gsap.min.js"
+    ></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
 
     <title>Home Page</title>
@@ -90,5 +94,16 @@
     <%-include("./partials/sidebar") %>
 
     <footer class="footer-faded"></footer>
+
+    <script>
+      const tl = gsap.timeline({ repeat: 0 });
+      tl.staggerFromTo(
+        ".card",
+        1,
+        { opacity: 0, scale: 0.85 },
+        { opacity: 1, scale: 1 },
+        0.05
+      );
+    </script>
   </body>
 </html>
