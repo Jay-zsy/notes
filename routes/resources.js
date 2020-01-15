@@ -118,5 +118,18 @@ module.exports = db => {
     });
   });
 
+  router.post("/:id/likes/delete", auth, (req, res) => {
+    const likeParams = {};
+    likeParams.resource_id = req.params.id;
+    likeParams.user_id = res.locals.user.id;
+
+    databaseFuncs.addLike(db, likeParams).then(resource_id => {
+      databaseFuncs.countLikes(db, resource_id).then(data => {
+        const number_of_likes = data[0].count;
+        res.json({ number_of_likes });
+      });
+    });
+  });
+
   return router;
 };
