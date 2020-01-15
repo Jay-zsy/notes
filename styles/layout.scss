@@ -151,6 +151,7 @@ body {
   }
 
   .footer-faded {
+    pointer-events: none;
     width: 100%;
     height: 120px;
     position: fixed;
@@ -189,6 +190,35 @@ body {
           display: none;
         }
       }
+    }
+  }
+
+  .edit-post-container {
+    display: flex;
+    justify-content: center;
+    height: 40rem;
+
+    content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .picture-area {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+
+      img {
+        border: none
+      }
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-around;
     }
   }
 }
