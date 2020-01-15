@@ -26,7 +26,6 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="/scripts/baffle.min.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
 
     <title>Home Page</title>
@@ -91,15 +90,5 @@
     <%-include("./partials/sidebar") %>
 
     <footer class="footer-faded"></footer>
-
-    <script>
-      window.baffle;
-      // Select elements and start.
-      let b = baffle(".owner_id", {
-        characters: "abcdefghijklmnopqrstuvwxyz",
-        speed: 750
-      });
-      b.reveal(1500, 1000);
-    </script>
   </body>
 </html>
