@@ -158,36 +158,18 @@ const getAllResources = function(db, options, limit = 20) {
     queryParams.push(`${options.category_id}`);
 
     queryString += `AND resources.category_id = $${queryParams.length} `;
-
-    // if (queryParams.length > 1) {
-    //   queryString += `AND resources.category_id = $${queryParams.length} `;
-    // } else {
-    //   queryString += `WHERE resources.category_id = $${queryParams.length} `;
-    // }
   }
 
   if (options.content_type) {
     queryParams.push(`${options.content_type}`);
 
     queryString += `AND resources.content_type = $${queryParams.length} `;
-
-    // if (queryParams.length > 1) {
-    //   queryString += `AND resources.content_type = $${queryParams.length} `;
-    // } else {
-    //   queryString += `WHERE resources.content_type = $${queryParams.length} `;
-    // }
   }
 
   if (options.keyword) {
     queryParams.push(`%${options.keyword.toUpperCase()}%`);
 
     queryString += `AND (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
-
-    // if (queryParams.length > 1) {
-    //   queryString += `AND (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
-    // } else {
-    //   queryString += `WHERE (upper(resources.title) LIKE $${queryParams.length} OR upper(resources.description) LIKE $${queryParams.length}) `;
-    // }
   }
 
   queryString += `
@@ -227,14 +209,17 @@ exports.getAverageRatings = getAverageRatings;
 const getResourceFromId = function(db, resource_id) {
   const queryParams = [resource_id];
   let queryString = `
-    SELECT resources.*, users.name as owner_name, users.profile_pic as owner_profile_pic, categories.thumbnail as category_thumbnail, count(likes.resource_id) as number_of_likes, round(avg(ratings.rating),2) as average_rating
+    SELECT resources.*, users.name as owner_name, users.profile_pic as owner_profile_pic, categories.thumbnail as category_thumbnail, count(likes.resource_id) as number_of_likes, average_rating
     FROM resources
     LEFT OUTER JOIN likes ON likes.resource_id = resources.id
-    LEFT OUTER JOIN ratings ON ratings.resource_id = resources.id
     LEFT OUTER JOIN users ON resources.owner_id = users.id
     LEFT OUTER JOIN categories ON resources.category_id = categories.id
+    LEFT OUTER JOIN (SELECT resource_id, round(avg(rating), 2) as average_rating
+                FROM ratings
+                GROUP BY resource_id
+                ORDER BY resource_id) as average_ratings ON resources.id = average_ratings.resource_id
     WHERE resources.id = $${queryParams.length}
-    GROUP BY resources.id, users.name, users.profile_pic, categories.thumbnail;
+    GROUP BY resources.id, average_ratings.average_rating, users.name, users.profile_pic, categories.thumbnail;
   `;
 
   return db
