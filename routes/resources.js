@@ -107,7 +107,7 @@ module.exports = db => {
   //likes
   router.post("/:id/likes", auth, (req, res) => {
     const resource_id = req.params.id;
-    console.log(resource_id);
+    const user_id = res.locals.user.id;
   });
 
   return router;

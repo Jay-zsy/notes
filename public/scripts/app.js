@@ -7,10 +7,11 @@ $(() => {
   //     $("<div>").text(user.name).appendTo($("body"));
   //   }
   // });
-  // $(".fa-trash-alt").click(function() {
-  //   console.log(this.id);
-  //   $.ajax({
-  //     method: "POST",
-  //     url: `/api/resources/delete/${this.id}`}).done();
-  // });
+  $(".fa-heart").click(function() {
+    console.log(this.id);
+    $.ajax({
+      method: "POST",
+      url: `/api/resources/${this.id}/likes`
+    }).done();
+  });
 });
