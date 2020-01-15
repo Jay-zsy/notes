@@ -132,16 +132,32 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 180px;
+    height: 200px;
+    // overflow: hidden;
 
-    .card-title {
-      font-family: "Montserrat", sans-serif;
-      font-weight: 900;
+    content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+
+      .card-title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 900;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      p {
+        font-family: "Khula", sans-serif;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
     }
 
-    p {
-      font-family: "Khula", sans-serif;
-    }
   }
 
   .card footer {
