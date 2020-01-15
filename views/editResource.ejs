@@ -22,11 +22,10 @@
     <title>NOTES - Edit Post </title>
   <body>
 
-  <!-- this is the new post section -->
   <%-include("./partials/header") %>
 
-
-    <div class="card" height="1000px" style="margin-top: 120px">
+    <div class="edit-post-container" style="margin: 120px">
+      <div class="card" style="width: 60rem">
       <header>
         <div>
           <img
@@ -44,26 +43,65 @@
               </form>
         </div>
       </header>
-      <div class="card-body">
+      <form class="card-body" action="/api/resources/edit/<%= data[0].id %>" method="POST">
         <content>
-          <a href="<%= data[0].url %>" target="#blank">
-            <h5 class="card-title"><%= data[0].title %></h5>
-          </a>
-          <p class="card-text"><%= data[0].description %></p>
+          <div>
+            <i class="far fa-edit"></i>
+            <input id="title-input" type="text" name="title" />
+            <a href="<%= data[0].url %>" target="#blank">
+              <h5 class="card-title"><%= data[0].title %></h5>
+            </a>
+          </div>
+
+          <div>
+            <i class="far fa-edit"></i>
+            <input id="description-input" type="text" name="description" />
+            <p class="card-text"><%= data[0].description %></p>
+          </div>
+
+          <div>
+            <i class="far fa-edit"></i>
+            <input id="url-input" type="text" name="url" />
+            <h5 class="card-title">Link: <%= data[0].url %></h5>
+          </div>
         </content>
-        <img
+        <div class="picture-area">
+          <img
           class="img-thumbnail"
           src="<%= data[0].category_thumbnail %>"
           width="200px"
           height="200px"
           alt="Category image"
-        />
-      </div>
+          />
+
+          <select name="category_id" class="custom-select mr-sm-2 search-field">
+            <option selected value="">Categories...</option>
+            <option value="1">Javascript</option>
+            <option value="2">CSS</option>
+            <option value="3">HTML</option>
+            <option value="4">SQL</option>
+          </select>
+
+          <select name="content_type" class="custom-select mr-sm-2 search-field">
+            <option selected value="">Content Type...</option>
+            <option value="Video">Video</option>
+            <option value="Game">Game</option>
+            <option value="Documentation">Documentation</option>
+            <option value="Article">Article</option>
+            <option value="Book">Book</option>
+            <option value="Interactive sandbox">Interactive Sandbox</option>
+            <option value="Online Course">Online Course</option>
+          </select>
+        <button type="submit" class="btn btn-primary">Save</button>
+          
+        </div>
+
+      </form>
       <footer class="text-muted">
         <div>
             <i class="far fa-heart"></i> <%= data[0].number_of_likes %>
         </div>
-        <i class="far fa-comment-dots"></i>
+        
         <div>
           <i class="far fa-star"></i> <%= data[0].average_rating %>
           <i class="fas fa-star"></i>
@@ -71,8 +109,9 @@
         <%= data[0].created_at %>
       </footer>
     </div>
+    </div>
 
-    <div class="card text-center" style="margin-top: 120px;">
+    <!-- <div class="card text-center" style="margin-top: 120px;">
         <div class="card-header"></div>
 
         <div class="card-body">
@@ -109,7 +148,6 @@
 
             </p>
           </div>
-      <div class="card-footer text-muted"></div>
-    </div>
+      <div class="card-footer text-muted"></div> -->
   </body>
   </html>
