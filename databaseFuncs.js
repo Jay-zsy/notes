@@ -52,12 +52,12 @@ const updateUserWithId = function(db, newUserParams) {
     UPDATE users `;
 
   if (newUserParams.name) {
-    queryParams.push(`${newParams.name}`);
+    queryParams.push(`${newUserParams.name}`);
     queryString += `SET name = $${queryParams.length} `;
   }
 
   if (newUserParams.email) {
-    queryParams.push(`${newParams.email}`);
+    queryParams.push(`${newUserParams.email}`);
 
     if (queryParams.length > 1) {
       queryString += `, email = $${queryParams.length} `;
@@ -67,7 +67,7 @@ const updateUserWithId = function(db, newUserParams) {
   }
 
   if (newUserParams.password) {
-    queryParams.push(`${newParams.password}`);
+    queryParams.push(`${newUserParams.password}`);
 
     if (queryParams.length > 1) {
       queryString += `, password = $${queryParams.length} `;
@@ -77,7 +77,7 @@ const updateUserWithId = function(db, newUserParams) {
   }
 
   if (newUserParams.profile_pic) {
-    queryParams.push(`${newParams.profile_pic}`);
+    queryParams.push(`${newUserParams.profile_pic}`);
 
     if (queryParams.length > 1) {
       queryString += `, profile_pic = $${queryParams.length} `;
@@ -86,7 +86,7 @@ const updateUserWithId = function(db, newUserParams) {
     }
   }
 
-  queryParams.push(newParams.userId);
+  queryParams.push(newUserParams.userId);
   queryString += `WHERE users.id = $${queryParams.length} RETURNING *`;
 
   return db

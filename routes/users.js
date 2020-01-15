@@ -66,7 +66,9 @@ module.exports = db => {
     }
 
     databaseFuncs.getUserWithId(db, userId).then(user => {
-      console.log(moment(user.created_at));
+      user.created_at = moment(user.created_at).format(
+        "dddd, MMMM Do YYYY, h:mm:ss a"
+      );
       res.render("usersProfile", { user });
     });
   });
@@ -76,12 +78,8 @@ module.exports = db => {
     newUserParams.userId = req.session.userId;
 
     databaseFuncs.updateUserWithId(db, newUserParams).then(user => {
-      res.json(user);
-      console.log(user);
-      // res.render("usersProfile", user);
+      res.render("usersProfile", { user });
     });
-
-    // res.status(200);
   });
 
   //----------------------------------------------------------//
