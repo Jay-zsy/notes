@@ -285,7 +285,7 @@ exports.deleteResource = deleteResource;
 
 //// Edit an existing resource
 //// THIS ROUTE HAS NOT BEEN TESTED, HIGHLY DEPENDENT ON FRONTEND ////
-const editResource = function(db, newResourceParams) {
+const editResource = (db, newResourceParams) => {
   let queryParams = [];
   let queryString = `
     UPDATE resources `;
@@ -328,3 +328,46 @@ const editResource = function(db, newResourceParams) {
     });
 };
 exports.editResource = editResource;
+
+const fetchComments = (db, resource_id) => {
+  queryParams = [resource_id];
+  queryString = `
+    SELECT comments.*, users.name as user_name, users.profile_pic as user_profile_pic
+    FROM comments 
+    JOIN users on user_id = users.id
+    WHERE resource_id = $1`;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.fetchComments = fetchComments;
+
+const addNewComment = (db, newCommentParams) => {
+  queryParams = [
+    newCommentParams.user_Id,
+    newCommentParams.resource_Id,
+    newCommentParams.message
+  ];
+  queryString = `
+    INSERT INTO comments (user_id, resource_id, message)
+    VALUES ($1, $2, $3)`;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.addNewComment = addNewComment;
+
+// async () => {
+//   try {
+//     const resource = await getAllResources;
+//     const comment = await loadcomment;
+//   } catch (err) {}
+// };

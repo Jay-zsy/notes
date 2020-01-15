@@ -118,5 +118,19 @@ module.exports = db => {
     });
   });
 
+  // get the comments for this post
+  router.get("/:id/comments", auth, (req, res) => {
+    const resource_id = req.params.id;
+
+    databaseFuncs.fetchComments(db, resource_id).then(console.log);
+  });
+
+  // posting a new comment to resource
+  router.post("/:id/comments", auth, (req, res) => {
+    const { ...newCommentParams } = req.body;
+    newCommentParams.resource_Id = req.params.id;
+    newCommentParams.user_Id = res.locals.user.id;
+    databaseFuncs.addNewComment(db, newCommentParams).then(console.log);
+  });
   return router;
 };
