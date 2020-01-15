@@ -48,6 +48,7 @@ module.exports = db => {
   //// Getting to the creation page
   router.get("/new", auth, (req, res) => {
     const user = res.locals.user;
+    console.log(user);
     if (req.session.userId) {
       res.render("newResource", { user });
     } else {
