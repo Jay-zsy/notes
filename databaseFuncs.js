@@ -320,3 +320,28 @@ const editResource = function(db, newResourceParams) {
     });
 };
 exports.editResource = editResource;
+
+//add a new like
+const addLike = function(db, likeParams) {
+  const queryParams = [likeParams.user_id, likeParams.resource_id];
+  // let queryString = `
+  //   INSERT INTO likes (user_id, resource_id)
+  //   VALUES ($1, $2)
+  //   RETURNING (SELECT count(likes.resource_id)
+  //         FROM likes
+  //         GROUP BY resource_id
+  //         HAVING resource_id = $2)`;
+
+  let queryString = `
+    INSERT INTO likes (user_id, resource_id)
+    VALUES ($1, $2)
+    `;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows[0])
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.addLike = addLike;

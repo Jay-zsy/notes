@@ -76,7 +76,10 @@
           />
         </div>
         <footer class="text-muted">
-          <div><i class="far fa-heart"></i> <%= el.number_of_likes %></div>
+          <div>
+            <i class="far fa-heart" id="<%= el.id %>"></i> <%=
+            el.number_of_likes %>
+          </div>
           <i class="far fa-comment-dots"></i>
           <div>
             <i class="far fa-star"></i> <%= el.average_rating %>
