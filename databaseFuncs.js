@@ -178,7 +178,7 @@ const getAllResources = function(db, options, limit = 20) {
 
   if (options.rating) {
     queryParams.push(`${options.rating}`);
-    queryString += `HAVING avg(ratings.rating) >= $${queryParams.length}`;
+    queryString += `HAVING average_rating >= $${queryParams.length}`;
   }
 
   queryParams.push(limit);
