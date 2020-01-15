@@ -48,7 +48,6 @@ module.exports = db => {
   //// Getting to the creation page
   router.get("/new", auth, (req, res) => {
     const user = res.locals.user;
-    console.log(user);
     if (req.session.userId) {
       res.render("newResource", { user });
     } else {
@@ -58,13 +57,10 @@ module.exports = db => {
 
   //// Submit a new resource
   router.post("/new", auth, (req, res) => {
-    // if (req.session.userId) then allow else send 403
-
     const { ...newResourceParams } = req.body;
     newResourceParams.owner_id = req.session.userId;
 
     databaseFuncs.addResource(db, newResourceParams).then(data => {
-      console.log("im the data ", data);
       res.redirect("/api/resources");
       res.status(200);
     });
@@ -72,12 +68,7 @@ module.exports = db => {
 
   //// 'Delete' an existing resource
   router.post("/delete/:id", auth, (req, res) => {
-    //this alongside some other endpoints needs to be changed using method override to satisfy the RESTful convention
-
-    // if req.session.userId !== owner_id then send back 403
-
     databaseFuncs.deleteResource(db, req.params.id).then(data => {
-      console.log("im the data ", data);
       res.redirect("/");
       res.status(200);
     });
@@ -101,24 +92,13 @@ module.exports = db => {
 
   //// Edit an existing resource
   router.post("/edit/:id", auth, (req, res) => {
-    // if req.session.userId !== owner_id then send back 403
-    // need a way to validate owner_id to user_id (inside the fn or here in the route?)
     const { ...newResourceParams } = req.body;
     newResourceParams.resource_Id = req.params.id;
-    console.log(newResourceParams);
-    // how the fuck do we get the resource_id from the front to back?
-    // will we just expect the resource_id to be already in the req.body?
-    newResourceParams.owner_id = req.session.userId; //not sure if we need to pass this into the fn
+    newResourceParams.owner_id = req.session.userId;
     databaseFuncs.editResource(db, newResourceParams).then(data => {
-      console.log("im the data ", data);
       res.redirect("/");
       res.status(200);
     });
-  });
-
-  router.get("/edit", auth, (req, res) => {
-    const resource_id = req.body;
-    console.log(resource_id);
   });
   return router;
 };
