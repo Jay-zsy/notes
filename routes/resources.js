@@ -123,12 +123,23 @@ module.exports = db => {
     likeParams.resource_id = req.params.id;
     likeParams.user_id = res.locals.user.id;
 
-    databaseFuncs.addLike(db, likeParams).then(resource_id => {
-      databaseFuncs.countLikes(db, resource_id).then(data => {
-        const number_of_likes = data[0].count;
-        res.json({ number_of_likes });
-      });
-    });
+    // databaseFuncs
+    //   .getLikeId(db, likeParams.user_id, likeParams.resource_id)
+    //   .then(like_id => {
+    //     console.log(like_id);
+    //     databaseFuncs.deleteLike(db, like_id.id).then(resource_id => {
+    //       console.log(resource_id);
+    //       // databaseFuncs.countLikes(db, resource_id);
+    //       // console.log(data);
+    //     });
+    //   });
+
+    // databaseFuncs.addLike(db, likeParams).then(resource_id => {
+    //   databaseFuncs.countLikes(db, resource_id).then(data => {
+    //     const number_of_likes = data[0].count;
+    //     res.json({ number_of_likes });
+    //   });
+    // });
   });
 
   return router;
