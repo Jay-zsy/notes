@@ -1,11 +1,15 @@
 /*
  * All routes for Resources are defined here
  */
+//  NEED TO USE THIS IN OUT QUERIES WHEN WE RETRIVE TIMESTAMPS BACK
+//  select created_at at time zone 'utc' at time zone 'pst' as created_at
+//  from resources;
 
 const express = require("express");
 const router = express.Router();
 const databaseFuncs = require("../databaseFuncs");
 const auth = require("../middleware/auth");
+const moment = require("moment");
 
 module.exports = db => {
   router.get("/", auth, (req, res) => {
@@ -53,7 +57,6 @@ module.exports = db => {
 
   //// Submit a new resource
   router.post("/new", auth, (req, res) => {
-    console.log(req.body);
     // if (req.session.userId) then allow else send 403
 
     const { ...newResourceParams } = req.body;
@@ -61,7 +64,6 @@ module.exports = db => {
 
     databaseFuncs.addResource(db, newResourceParams).then(data => {
       console.log("im the data ", data);
-      // res.redirect("index", { data });         ///this redirect is not working
       res.redirect("/api/resources");
       res.status(200);
     });
@@ -85,6 +87,13 @@ module.exports = db => {
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
       const user = res.locals.user;
+      console.log(
+        "here: ",
+        moment(data.created_at).format("dddd, MMMM Do YYYY, h:mm:ss a")
+      );
+      // data.created_at = moment(data.created_at).format(
+      //   "dddd, MMMM Do YYYY, h:mm:ss a"
+      // );
       res.render("editResource", { data, user });
     });
   });
