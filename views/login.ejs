@@ -34,7 +34,7 @@
   <body>
     <%-include("./partials/header") %>
 
-    <main style="margin-top: 120px">
+    <main style="margin-top: 120px; margin-left: 2rem;">
       <h3 style="margin-bottom: 1em">Log Into Your Account</h3>
       <form action="/api/users/login" method="POST">
         <div class="form-group mb-2">
@@ -43,7 +43,7 @@
             class="form-control"
             type="email"
             name="email"
-            placeholder="generic@email.com"
+            placeholder="email"
             style="width: 300px; margin-bottom: 1em"
             maxlength="50"
             required
@@ -53,7 +53,7 @@
             class="form-control"
             type="password"
             name="password"
-            placeholder="secure password"
+            placeholder="password"
             style="width: 300px; margin-bottom: 1em"
             maxlength="50"
             required
