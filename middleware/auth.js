@@ -8,11 +8,9 @@ module.exports = (req, res, next) => {
   databaseFuncs
     .getUserWithId(db, req.session.userId)
     .then(user => {
-      console.log("user is: ", user);
       if (!user) {
         res.render("login");
       }
-      console.log(user);
       res.locals.user = {};
       res.locals.user.id = user.id;
       res.locals.user.name = user.name;
