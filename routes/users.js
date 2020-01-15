@@ -77,6 +77,8 @@ module.exports = db => {
     const { ...newUserParams } = req.body;
     newUserParams.userId = req.session.userId;
 
+    console.log("this: ", newUserParams);
+
     databaseFuncs.updateUserWithId(db, newUserParams).then(user => {
       res.render("usersProfile", { user });
     });

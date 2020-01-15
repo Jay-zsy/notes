@@ -43,12 +43,12 @@
         width="300px"/>
 
         <form class="details" action="/api/users/me" method="POST">
-          <div>Name: <%= user.name %></div>
+          <div class="baffle-name">Name: <%= user.name %></div>
           <div>
             <i class="far fa-edit" id="edit-name"></i>
             <input class="user-name-input" type="text" name="name" />
           </div>
-          <div>Email: <%= user.email %></div>
+          <div class="baffle-email">Email: <%= user.email %></div>
           <div>
             <i class="far fa-edit" id="edit-email"></i>
             <input class="user-email-input" type="text" name="email" />
@@ -56,7 +56,7 @@
           <div>Member Since: <%= user.created_at %></div>
           <div>
             Password:
-            <p class="baffle-text">
+            <p class="baffle-password">
               ▒░█ ▓▒▓▒▒ ▒<▒█▓ ▓/░ ▓▓▓█
             </p>
           </div>
@@ -74,11 +74,23 @@
     <script>
       window.baffle;
       // Select elements and start.
-      let password = baffle(".baffle-text", {
+      let password = baffle(".baffle-password", {
         characters: "▒░█▓▒▓▒▒▒<▒█▓ ▓/░ ▓▓▓█░▓▒<░ ▓▓▒░/>▓▓",
         speed: 75
       });
       password.start();
+
+      let name = baffle(".baffle-name", {
+        characters: "▒░█▓▒▓▒▒▒<▒█▓ ▓/░ ▓▓▓█░▓▒<░ ▓▓▒░/>▓▓",
+        speed: 75
+      });
+      name.reveal(1500);
+
+      let email = baffle(".baffle-email", {
+        characters: "▒░█▓▒▓▒▒▒<▒█▓ ▓/░ ▓▓▓█░▓▒<░ ▓▓▒░/>▓▓",
+        speed: 75
+      });
+      email.reveal(1500);
     </script>
   </body>
 </html>
