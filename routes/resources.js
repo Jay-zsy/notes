@@ -100,5 +100,23 @@ module.exports = db => {
       res.status(200);
     });
   });
+
+  // get the expanded resource page
+  router.get("/:id", auth, (req, res) => {
+    const resource_id = req.params.id;
+
+    databaseFuncs.getResourceFromId(db, resource_id).then(data => {
+      const user = res.locals.user;
+      console.log(
+        "here: ",
+        moment(data.created_at).format("dddd, MMMM Do YYYY, h:mm:ss a")
+      );
+      // data.created_at = moment(data.created_at).format(
+      //   "dddd, MMMM Do YYYY, h:mm:ss a"
+      // );
+      res.render("expandedResource", { data, user });
+    });
+  });
+
   return router;
 };
