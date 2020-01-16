@@ -6,10 +6,11 @@ const express = require("express");
 const router = express.Router();
 const databaseFuncs = require("../databaseFuncs");
 const auth = require("../middleware/auth");
+const userPreferences = require("../middleware/usersPreferences");
 const moment = require("moment");
 
 module.exports = db => {
-  router.get("/", auth, (req, res) => {
+  router.get("/", auth, userPreferences, (req, res) => {
     const userId = req.session.userId;
 
     if (!userId) {
@@ -25,7 +26,7 @@ module.exports = db => {
     });
   });
 
-  router.get("/myResources", auth, (req, res) => {
+  router.get("/myResources", auth, userPreferences, (req, res) => {
     const userId = req.session.userId;
 
     if (!userId) {
@@ -73,7 +74,7 @@ module.exports = db => {
     });
   });
 
-  router.get("/edit/:id", auth, (req, res) => {
+  router.get("/edit/:id", auth, userPreferences, (req, res) => {
     const resource_id = req.params.id;
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
@@ -101,7 +102,7 @@ module.exports = db => {
   });
 
   // get the expanded resource page
-  router.get("/:id", auth, (req, res) => {
+  router.get("/:id", auth, userPreferences, (req, res) => {
     const resource_id = req.params.id;
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
@@ -118,7 +119,7 @@ module.exports = db => {
   });
 
   // get the comments for this post
-  router.get("/:id/comments", auth, (req, res) => {
+  router.get("/:id/comments", auth, userPreferences, (req, res) => {
     const resource_id = req.params.id;
 
     databaseFuncs.fetchComments(db, resource_id).then(comments => {
@@ -127,7 +128,6 @@ module.exports = db => {
           "dddd, MMMM Do YYYY, h:mm:ss a"
         );
       }
-
       res.send(comments);
     });
   });
@@ -185,7 +185,6 @@ module.exports = db => {
         } else {
           number_of_likes = data[0].count;
         }
-
         res.json({ number_of_likes });
       });
   });

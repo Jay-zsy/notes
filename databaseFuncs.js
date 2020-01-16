@@ -429,12 +429,10 @@ exports.getLikeId = getLikeId;
 
 const deleteLike = function(db, like_id) {
   const queryParams = [like_id];
-  console.log(like_id);
   const queryString = `
     DELETE FROM likes
     WHERE likes.id = $1
-    RETURNING *
-  `;
+    RETURNING *`;
 
   return db
     .query(queryString, queryParams)
@@ -445,9 +443,18 @@ const deleteLike = function(db, like_id) {
 };
 exports.deleteLike = deleteLike;
 
-// async () => {
-//   try {
-//     const resource = await getAllResources;
-//     const comment = await loadcomment;
-//   } catch (err) {}
-// };
+const usersLikedResources = (db, user_id) => {
+  const queryParams = [user_id];
+  const queryString = `
+    SELECT resource_id 
+    FROM likes
+    WHERE user_id = $1`;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.usersLikedResources = usersLikedResources;

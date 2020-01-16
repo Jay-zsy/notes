@@ -79,9 +79,13 @@
             alt="Category image"
           />
         </div>
+
         <footer class="text-muted">
           <div class="likes-section">
-            <i id="<%= el.id %>" class="not-liked fas fa-heart"></i>
+            <i id="<%= el.id %>" <% if(user.likes.includes(el.id)) {%>
+              class="liked fas fa-heart" <% } else { %> class="not-liked fas
+              fa-heart" <% } %>></i
+            >
             <p><%= el.number_of_likes %></p>
           </div>
           <a href="/api/resources/<%= el.id %>"
