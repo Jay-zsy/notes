@@ -333,9 +333,10 @@ const fetchComments = (db, resource_id) => {
   queryParams = [resource_id];
   queryString = `
     SELECT comments.*, users.name as user_name, users.profile_pic as user_profile_pic
-    FROM comments 
+    FROM comments
     JOIN users on user_id = users.id
-    WHERE resource_id = $1`;
+    WHERE resource_id = $1
+    ORDER BY comments.created_at DESC`;
 
   return db
     .query(queryString, queryParams)
@@ -348,18 +349,19 @@ exports.fetchComments = fetchComments;
 
 const addNewComment = (db, newCommentParams) => {
   queryParams = [
-    newCommentParams.user_Id,
-    newCommentParams.resource_Id,
+    newCommentParams.user_id,
+    newCommentParams.resource_id,
     newCommentParams.message
   ];
   queryString = `
     INSERT INTO comments (user_id, resource_id, message)
     VALUES ($1, $2, $3)
-    RETURNING *`;
+    RETURNING *;`;
 
+  console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
-    .then(res => console.log(res.rows))
+    .then(res => res.rows[0].resource_id)
     .catch(err => {
       console.error("query error", err.stack);
     });

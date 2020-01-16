@@ -1,4 +1,6 @@
 $(() => {
+  //load comments
+
   // $.ajax({
   //   method: "GET",
   //   url: "/api/users"
@@ -13,6 +15,8 @@ $(() => {
   //     method: "POST",
   //     url: `/api/resources/delete/${this.id}`}).done();
   // });
+
+  //edit profile pages
   $("#edit-name").click(function() {
     $(".user-name-input").toggle(400);
   });
