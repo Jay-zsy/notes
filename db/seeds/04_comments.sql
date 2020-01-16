@@ -19,5 +19,5 @@ VALUES
     (2, 6, 'Good read'),
     (2, 7, 'Anyone know what Pseudo-classes are?'),
     (2, 8, 'Now I can design for mobile wooo!'),
-    (2, 9, 'I_HATE = RECURSION!!! => () { I_HATE() }'),
-    (2, 10, 'Promise me a job?');
+    (2, 9, 'Promise me a job?'),
+    (2, 10, 'I_HATE = RECURSION!!! => () { I_HATE() }');
