@@ -194,14 +194,14 @@ module.exports = db => {
     const { ...ratingParams } = req.body;
     ratingParams.resource_id = req.params.id;
     ratingParams.user_id = res.locals.user.id;
-    console.log(res.locals.user.ratings);
 
     let action = "insert";
     for (el of res.locals.user.ratings) {
-      if (el[0] === ratingParams.resource_id) {
+      if (el[0] == ratingParams.resource_id) {
         action = "update";
       }
     }
+    console.log(action);
     if (action === "update") {
       databaseFuncs
         .updateRatings(db, ratingParams)
