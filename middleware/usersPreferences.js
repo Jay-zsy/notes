@@ -7,13 +7,21 @@ const flatMap = require("array.prototype.flatmap");
 
 module.exports = async (req, res, next) => {
   try {
-    const response = await databaseFuncs.usersLikedResources(
+    const likeResponse = await databaseFuncs.usersLikedResources(
       db,
       req.session.userId
     );
-    userLikes = response.map(el => Object.values(el)[0]);
-    console.log(userLikes);
+    userLikes = likeResponse.map(el => Object.values(el)[0]);
+
+    const ratingResponse = await databaseFuncs.usersRatedResources(
+      db,
+      req.session.userId
+    );
+    userRatings = ratingResponse.map(el => Object.values(el));
+
+    console.log(userRatings);
     res.locals.user.likes = userLikes;
+    res.locals.user.ratings = userRatings;
     next();
   } catch (err) {
     next(err);

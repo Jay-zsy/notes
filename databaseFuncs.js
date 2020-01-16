@@ -458,3 +458,19 @@ const usersLikedResources = (db, user_id) => {
     });
 };
 exports.usersLikedResources = usersLikedResources;
+
+const usersRatedResources = (db, user_id) => {
+  const queryParams = [user_id];
+  const queryString = `
+    SELECT resource_id, rating 
+    FROM ratings
+    WHERE user_id = $1`;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.usersRatedResources = usersRatedResources;
