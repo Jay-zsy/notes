@@ -18,8 +18,6 @@ module.exports = async (req, res, next) => {
       req.session.userId
     );
     userRatings = ratingResponse.map(el => Object.values(el));
-
-    console.log(userRatings);
     res.locals.user.likes = userLikes;
     res.locals.user.ratings = userRatings;
     next();

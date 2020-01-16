@@ -91,30 +91,58 @@
           <a href="/api/resources/<%= el.id %>"
             ><i class="far fa-comment-dots"></i
           ></a>
-          <div>Avg. Rating: <%= el.average_rating %></div>
-
-          <div class="rating">
-            <input id="rating-5" type="radio" name="rating" value="5" /><label
-              for="rating-5"
-              ><i class="fas fa-star"></i
-            ></label>
-            <input id="rating-4" type="radio" name="rating" value="4" /><label
-              for="rating-4"
-              ><i class="fas fa-star"></i
-            ></label>
-            <input id="rating-3" type="radio" name="rating" value="3" /><label
-              for="rating-3"
-              ><i class="fas fa-star"></i
-            ></label>
-            <input id="rating-2" type="radio" name="rating" value="2" /><label
-              for="rating-2"
-              ><i class="fas fa-star"></i
-            ></label>
-            <input id="rating-1" type="radio" name="rating" value="1" /><label
-              for="rating-1"
-              ><i class="fas fa-star"></i
-            ></label>
+          <div>
+            Avg. Rating:
+            <p id="avg_rating_of_<%= el.id %>"><%= el.average_rating %></p>
           </div>
+
+          <form class="rating">
+            <input
+              id="rating-5_<%= el.id %>"
+              type="radio"
+              name="rating"
+              value="5"
+            />
+            <label for="rating-5_<%= el.id %>"
+              ><i class="fas fa-star"></i
+            ></label>
+            <input
+              id="rating-4_<%= el.id %>"
+              type="radio"
+              name="rating"
+              value="4"
+            />
+            <label for="rating-4_<%= el.id %>"
+              ><i class="fas fa-star"></i
+            ></label>
+            <input
+              id="rating-3_<%= el.id %>"
+              type="radio"
+              name="rating"
+              value="3"
+            />
+            <label for="rating-3_<%= el.id %>"
+              ><i class="fas fa-star"></i
+            ></label>
+            <input
+              id="rating-2_<%= el.id %>"
+              type="radio"
+              name="rating"
+              value="2"
+            />
+            <label for="rating-2_<%= el.id %>"
+              ><i class="fas fa-star"></i
+            ></label>
+            <input
+              id="rating-1_<%= el.id %>"
+              type="radio"
+              name="rating"
+              value="1"
+            />
+            <label for="rating-1_<%= el.id %>"
+              ><i class="fas fa-star"></i
+            ></label>
+          </form>
         </footer>
       </div>
 

@@ -142,7 +142,7 @@ const getAllResources = function(db, options, limit = 20) {
     LEFT OUTER JOIN likes ON likes.resource_id = resources.id
     LEFT OUTER JOIN users ON resources.owner_id = users.id
     LEFT OUTER JOIN categories ON resources.category_id = categories.id
-    LEFT OUTER JOIN (SELECT resource_id, round(avg(rating), 2) as average_rating
+    LEFT OUTER JOIN (SELECT resource_id, round(avg(rating), 1) as average_rating
                 FROM ratings
                 GROUP BY resource_id
                 ORDER BY resource_id) as average_ratings ON resources.id = average_ratings.resource_id
@@ -474,3 +474,59 @@ const usersRatedResources = (db, user_id) => {
     });
 };
 exports.usersRatedResources = usersRatedResources;
+
+const updateRatings = (db, ratingParams) => {
+  const queryParams = [
+    ratingParams.rating,
+    ratingParams.user_id,
+    ratingParams.resource_id
+  ];
+  const queryString = `
+    UPDATE ratings
+    SET rating = $1
+    WHERE user_id = $2 AND resource_id = $3`;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.updateRatings = updateRatings;
+
+const addRating = (db, ratingParams) => {
+  const queryParams = [
+    ratingParams.user_id,
+    ratingParams.resource_id,
+    ratingParams.rating
+  ];
+  const queryString = `
+    INSERT INTO ratings (user_id, resource_id, rating)
+    VALUES ($1, $2, $3)`;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.addRating = addRating;
+
+const fetchAverageRating = (db, resource_id) => {
+  const queryParams = [resource_id];
+  const queryString = `
+    SELECT round(AVG(rating),1)
+    FROM ratings
+    WHERE resource_id = $1
+    GROUP BY resource_id`;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows[0])
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.fetchAverageRating = fetchAverageRating;
