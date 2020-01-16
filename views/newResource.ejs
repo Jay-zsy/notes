@@ -36,9 +36,13 @@
 
     <div class="edit-post-container" style="margin: 120px">
       <div class="card" style="width: 60rem">
+        <header>
+          <div><h2>Add New Post</h2></div>
+        </header>
         <form class="card-body" action="/api/resources/new" method="POST">
           <content>
             <div>
+              <div><h3>Title:</h3></div>
               <i class="far fa-edit"></i>
               <input
                 id="title-input"
@@ -49,6 +53,7 @@
             </div>
 
             <div>
+              <div><h3>Description:</h3></div>
               <i class="far fa-edit"></i>
               <input
                 id="description-input"
@@ -59,6 +64,7 @@
             </div>
 
             <div>
+              <div><h3>Link:</h3></div>
               <i class="far fa-edit"></i>
               <input id="url-input" type="text" name="url" placeholder="URL" />
             </div>
