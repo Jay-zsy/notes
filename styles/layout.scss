@@ -157,13 +157,6 @@ body {
         overflow: hidden;
       }
     }
-
-    div {
-      display: flex;
-      flex-direction: column-reverse;
-      justify-content: center;
-      align-content: center;
-    }
   }
 
   .card footer {
@@ -175,6 +168,24 @@ body {
     i {
       cursor: pointer;
     }
+
+    .rating {
+      direction: rtl;
+      unicode-bidi: bidi-override;
+      color: #ddd;
+    }
+
+    .rating input {
+      display: none;
+    }
+
+    .rating label:hover,
+    .rating label:hover~label,
+    .rating input:checked+label,
+    .rating input:checked+label~label {
+      color: #ffc107;
+    }
+
   }
 
   .footer-faded {
