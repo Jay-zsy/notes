@@ -80,8 +80,9 @@
           />
         </div>
         <footer class="text-muted">
-          <div id="<%= el.id %>" class="like-button far fa-heart">
-            <%= el.number_of_likes %>
+          <div class="likes-section">
+            <i id="<%= el.id %>" class="not-liked fas fa-heart"></i>
+            <p><%= el.number_of_likes %></p>
           </div>
           <a href="/api/resources/<%= el.id %>"
             ><i class="far fa-comment-dots"></i

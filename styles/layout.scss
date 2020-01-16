@@ -165,6 +165,22 @@ body {
     align-items: center;
     padding: 1rem;
 
+    .likes-section {
+      width: 10%;
+      display: flex;
+      justify-content: space-between;
+      align-content: center;
+
+      .fas {
+        line-height: inherit;
+        color: #ddd;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+
     i {
       cursor: pointer;
     }
@@ -351,7 +367,6 @@ body {
       justify-content: space-between;
       margin: 0;
       font-size: 0.8rem;
-      // padding-top: 10px;
       padding-left: 15px;
       padding-right: 15px;
     }
