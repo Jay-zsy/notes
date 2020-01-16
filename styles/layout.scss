@@ -271,7 +271,21 @@ body {
       justify-content: space-around;
       width: 60%;
 
-      input {
+      .description-div {
+        display: flex;
+      }
+
+      #title-input {
+        width: 50%;
+      }
+
+      #description-input {
+        width: 90%;
+        height: 6rem;
+        margin-left: 0.25rem;
+      }
+
+      #url-input {
         width: 90%;
       }
     }
