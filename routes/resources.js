@@ -79,13 +79,13 @@ module.exports = db => {
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
       const user = res.locals.user;
-      console.log(
-        "here: ",
-        moment(data.created_at).format("dddd, MMMM Do YYYY, h:mm:ss a")
-      );
-      // data.created_at = moment(data.created_at).format(
-      //   "dddd, MMMM Do YYYY, h:mm:ss a"
-      // );
+
+      for (resource of data) {
+        resource.created_at_pst = moment(resource.created_at_pst).format(
+          "dddd, MMMM Do YYYY, h:mm:ss a"
+        );
+      }
+
       res.render("editResource", { data, user });
     });
   });
@@ -107,13 +107,13 @@ module.exports = db => {
 
     databaseFuncs.getResourceFromId(db, resource_id).then(data => {
       const user = res.locals.user;
-      console.log(
-        "here: ",
-        moment(data.created_at).format("dddd, MMMM Do YYYY, h:mm:ss a")
-      );
-      // data.created_at = moment(data.created_at).format(
-      //   "dddd, MMMM Do YYYY, h:mm:ss a"
-      // );
+
+      for (resource of data) {
+        resource.created_at_pst = moment(resource.created_at_pst).format(
+          "dddd, MMMM Do YYYY, h:mm:ss a"
+        );
+      }
+
       res.render("expandedResource", { data, user });
     });
   });
@@ -123,6 +123,12 @@ module.exports = db => {
     const resource_id = req.params.id;
 
     databaseFuncs.fetchComments(db, resource_id).then(comments => {
+      for (comment of comments) {
+        comment.created_at_pst = moment(comment.created_at_pst).format(
+          "dddd, MMMM Do YYYY, h:mm:ss a"
+        );
+      }
+
       res.send(comments);
     });
   });
@@ -134,6 +140,11 @@ module.exports = db => {
 
     databaseFuncs.addNewComment(db, newCommentParams).then(resource_id => {
       databaseFuncs.fetchComments(db, resource_id).then(comments => {
+        for (comment of comments) {
+          comment.created_at_pst = moment(comment.created_at_pst).format(
+            "dddd, MMMM Do YYYY, h:mm:ss a"
+          );
+        }
         res.send(comments);
       });
     });

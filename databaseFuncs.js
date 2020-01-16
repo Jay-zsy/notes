@@ -211,8 +211,9 @@ exports.getAverageRatings = getAverageRatings;
 ////get resource from resource_id
 const getResourceFromId = function(db, resource_id) {
   const queryParams = [resource_id];
+
   let queryString = `
-    SELECT resources.*, users.name as owner_name, users.profile_pic as owner_profile_pic, categories.thumbnail as category_thumbnail, count(likes.resource_id) as number_of_likes, average_rating
+    SELECT resources.*, resources.created_at at time zone 'utc' at time zone 'pst' as created_at_pst, users.name as owner_name, users.profile_pic as owner_profile_pic, categories.thumbnail as category_thumbnail, count(likes.resource_id) as number_of_likes, average_rating
     FROM resources
     LEFT OUTER JOIN likes ON likes.resource_id = resources.id
     LEFT OUTER JOIN users ON resources.owner_id = users.id
@@ -331,8 +332,9 @@ exports.editResource = editResource;
 
 const fetchComments = (db, resource_id) => {
   queryParams = [resource_id];
+
   queryString = `
-    SELECT comments.*, users.name as user_name, users.profile_pic as user_profile_pic
+    SELECT comments.*, comments.created_at at time zone 'utc' at time zone 'pst' as created_at_pst, users.name as user_name, users.profile_pic as user_profile_pic
     FROM comments
     JOIN users on user_id = users.id
     WHERE resource_id = $1

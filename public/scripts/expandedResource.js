@@ -39,7 +39,7 @@ $(() => {
       </header>
       <p class="commentContent">${commentObj.message}</p>
       <footer>
-        <span>${commentObj.created_at}</span>
+        <span>${commentObj.created_at_pst}</span>
         </span>
       </footer>
     </article>`;

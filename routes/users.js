@@ -98,7 +98,6 @@ module.exports = db => {
 
   router.post("/new", (req, res) => {
     const newUserParams = req.body;
-    console.log(req.body);
     databaseFuncs.addUser(db, newUserParams).then(user => {
       req.session.userId = user.id;
       res.redirect("/");
