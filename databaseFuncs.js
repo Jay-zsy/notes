@@ -376,7 +376,7 @@ const getLikeId = function(db, user_id, resource_id) {
 
   return db
     .query(queryString, queryParams)
-    .then(res => res.rows[0].resource_id)
+    .then(res => res.rows[0].id)
     .catch(err => {
       console.error("query error", err.stack);
     });
