@@ -54,6 +54,8 @@ module.exports = db => {
 
   //// Submit a new resource
   router.post("/new", auth, (req, res) => {
+    // if (req.session.userId) then allow else send 403
+
     const { ...newResourceParams } = req.body;
     newResourceParams.owner_id = req.session.userId;
 
@@ -146,5 +148,47 @@ module.exports = db => {
       });
     });
   });
+  //likes
+  router.post("/:id/likes", auth, (req, res) => {
+    const likeParams = {};
+    likeParams.resource_id = req.params.id;
+    likeParams.user_id = res.locals.user.id;
+
+    databaseFuncs
+      .addLike(db, likeParams)
+      .then(resource_id => {
+        return databaseFuncs.countLikes(db, resource_id);
+      })
+      .then(data => {
+        const number_of_likes = data[0].count;
+        res.json({ number_of_likes });
+      });
+  });
+
+  router.post("/:id/likes/delete", auth, (req, res) => {
+    const likeParams = {};
+    likeParams.resource_id = Number(req.params.id);
+    likeParams.user_id = res.locals.user.id;
+
+    databaseFuncs
+      .getLikeId(db, likeParams.user_id, likeParams.resource_id)
+      .then(like_id => {
+        return databaseFuncs.deleteLike(db, like_id);
+      })
+      .then(data => {
+        return databaseFuncs.countLikes(db, data.resource_id);
+      })
+      .then(data => {
+        let number_of_likes;
+        if (data.length === 0) {
+          number_of_likes = 0;
+        } else {
+          number_of_likes = data[0].count;
+        }
+
+        res.json({ number_of_likes });
+      });
+  });
+
   return router;
 };

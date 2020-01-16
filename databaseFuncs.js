@@ -15,7 +15,6 @@ const getUserWithEmail = function(db, loginInput) {
       if (bcrypt.compareSync(loginInput.password, res.rows[0].password)) {
         return res.rows[0];
       } else {
-        console.log("goes here");
         return ""; //this means they fucked up n pw is wrong
       }
     })
@@ -35,7 +34,6 @@ const getUserWithId = function(db, userId) {
   return db
     .query(queryString, queryParams)
     .then(res => {
-      console.log(res.rows[0]);
       return res.rows[0];
     })
     .catch(err => {
@@ -92,7 +90,6 @@ const updateUserWithId = function(db, newUserParams) {
   return db
     .query(queryString, queryParams)
     .then(res => {
-      console.log(res);
       return res.rows[0];
     })
     .catch(err => {
@@ -190,7 +187,6 @@ const getAllResources = function(db, options, limit = 20) {
     LIMIT $${queryParams.length};
   `;
 
-  console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows)
@@ -274,7 +270,6 @@ const deleteResource = function(db, resource_Id) {
     SET is_active = false
     WHERE resources.id = $1
     RETURNING * `;
-  // console.log(queryString, queryParams);
   return db
     .query(queryString, queryParams)
     .then(res => res.rows[0])
@@ -320,7 +315,7 @@ const editResource = (db, newResourceParams) => {
   }
   queryParams.push(newResourceParams.resource_Id); //expecting a key from the front/route
   queryString += `WHERE resources.id = $${queryParams.length} RETURNING *`;
-  console.log(queryString, queryParams);
+
   return db
     .query(queryString, queryParams)
     .then(res => res.rows[0])
@@ -349,6 +344,50 @@ const fetchComments = (db, resource_id) => {
 };
 exports.fetchComments = fetchComments;
 
+//add a new like
+const addLike = function(db, likeParams) {
+  const queryParams = [likeParams.user_id, likeParams.resource_id];
+  // let queryString = `
+  //   INSERT INTO likes (user_id, resource_id)
+  //   VALUES ($1, $2)
+  //   RETURNING (SELECT count(likes.resource_id)
+  //         FROM likes
+  //         GROUP BY resource_id
+  //         HAVING resource_id = $2)`;
+
+  let queryString = `
+    INSERT INTO likes (user_id, resource_id)
+    VALUES ($1, $2)
+    RETURNING *
+    `;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows[0].resource_id)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.addLike = addLike;
+
+const countLikes = function(db, resource_id) {
+  const queryParams = [resource_id];
+  const queryString = `
+    SELECT count(likes.resource_id)
+    FROM likes
+    GROUP BY resource_id
+    HAVING resource_id = $1
+  `;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.countLikes = countLikes;
+
 const addNewComment = (db, newCommentParams) => {
   queryParams = [
     newCommentParams.user_id,
@@ -369,6 +408,42 @@ const addNewComment = (db, newCommentParams) => {
     });
 };
 exports.addNewComment = addNewComment;
+
+const getLikeId = function(db, user_id, resource_id) {
+  const queryParams = [user_id, resource_id];
+  const queryString = `
+    SELECT id
+    FROM likes
+    WHERE user_id = $1
+      AND resource_id = $2;
+  `;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows[0].id)
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.getLikeId = getLikeId;
+
+const deleteLike = function(db, like_id) {
+  const queryParams = [like_id];
+  console.log(like_id);
+  const queryString = `
+    DELETE FROM likes
+    WHERE likes.id = $1
+    RETURNING *
+  `;
+
+  return db
+    .query(queryString, queryParams)
+    .then(res => res.rows[0])
+    .catch(err => {
+      console.error("query error", err.stack);
+    });
+};
+exports.deleteLike = deleteLike;
 
 // async () => {
 //   try {
