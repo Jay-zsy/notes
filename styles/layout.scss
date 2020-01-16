@@ -33,12 +33,10 @@ body {
       color: darkgrey;
     }
 
-    //WIP CANVAS BIG BOY
     .navbar-brand {
       overflow: hidden;
     }
 
-    //fader for logo
     background: linear-gradient(
       to bottom,
       rgba(255, 255, 255, 1),
@@ -206,6 +204,10 @@ body {
     .rating input:checked + label,
     .rating input:checked + label ~ label {
       color: #ffc107;
+    }
+
+    label {
+      margin-bottom: 0;
     }
   }
 
