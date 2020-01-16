@@ -48,7 +48,7 @@
               src="<%= el.owner_profile_pic %>"
               alt="User profile picture"
             />
-            <p class="owner_name"><%= el.owner_name %></p>
+            <p class="owner_name">Posted by: <%= el.owner_name %></p>
           </div>
           <% if(el.owner_id === user.id) { %>
           <div>
@@ -70,13 +70,16 @@
             </a>
             <p class="card-text"><%= el.description %></p>
           </content>
-          <img
-            class="img-thumbnail"
-            src="<%= el.category_thumbnail %>"
-            width="100px"
-            height="100px"
-            alt="Category image"
-          />
+          <div>
+            <div>Avg. Rating: <%= el.average_rating %></div>
+            <img
+              class="img-thumbnail"
+              src="<%= el.category_thumbnail %>"
+              width="100px"
+              height="100px"
+              alt="Category image"
+            />
+          </div>
         </div>
         <footer class="text-muted">
           <div><i class="far fa-heart"></i> <%= el.number_of_likes %></div>
@@ -84,8 +87,12 @@
             ><i class="far fa-comment-dots"></i
           ></a>
           <div>
-            <i class="far fa-star"></i> <%= el.average_rating %>
-            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+            <!-- <i class="fas fa-star"></i>  -->
           </div>
         </footer>
       </div>

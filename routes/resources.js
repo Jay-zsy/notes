@@ -1,9 +1,6 @@
 /*
  * All routes for Resources are defined here
  */
-//  NEED TO USE THIS IN OUT QUERIES WHEN WE RETRIVE TIMESTAMPS BACK
-//  select created_at at time zone 'utc' at time zone 'pst' as created_at
-//  from resources;
 
 const express = require("express");
 const router = express.Router();

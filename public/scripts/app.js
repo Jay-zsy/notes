@@ -26,4 +26,6 @@ $(() => {
   $("#edit-password").click(function() {
     $(".user-password-input").toggle(400);
   });
+
+  //
 });
