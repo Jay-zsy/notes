@@ -12,7 +12,6 @@
   "author": "Lighthouse Labs",
   "license": "ISC",
   "dependencies": {
-    "array.prototype.flatmap": "^1.2.3",
     "baffle": "^0.3.6",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
