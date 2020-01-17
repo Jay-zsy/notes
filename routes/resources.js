@@ -46,8 +46,6 @@ module.exports = db => {
         }
       }
 
-      console.log(likesArr);
-
       res.render("myResources", { data, user, likesArr });
       res.status(200);
     });
@@ -211,7 +209,7 @@ module.exports = db => {
         action = "update";
       }
     }
-    console.log(action);
+
     if (action === "update") {
       databaseFuncs
         .updateRatings(db, ratingParams)
