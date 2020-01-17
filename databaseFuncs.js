@@ -214,7 +214,7 @@ const getResourceFromId = function(db, resource_id) {
     LEFT OUTER JOIN likes ON likes.resource_id = resources.id
     LEFT OUTER JOIN users ON resources.owner_id = users.id
     LEFT OUTER JOIN categories ON resources.category_id = categories.id
-    LEFT OUTER JOIN (SELECT resource_id, round(avg(rating), 2) as average_rating
+    LEFT OUTER JOIN (SELECT resource_id, round(avg(rating), 1) as average_rating
                 FROM ratings
                 GROUP BY resource_id
                 ORDER BY resource_id) as average_ratings ON resources.id = average_ratings.resource_id
@@ -446,7 +446,7 @@ exports.deleteLike = deleteLike;
 const usersLikedResources = (db, user_id) => {
   const queryParams = [user_id];
   const queryString = `
-    SELECT resource_id 
+    SELECT resource_id
     FROM likes
     WHERE user_id = $1`;
 
@@ -462,7 +462,7 @@ exports.usersLikedResources = usersLikedResources;
 const usersRatedResources = (db, user_id) => {
   const queryParams = [user_id];
   const queryString = `
-    SELECT resource_id, rating 
+    SELECT resource_id, rating
     FROM ratings
     WHERE user_id = $1`;
 

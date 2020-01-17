@@ -31,6 +31,7 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.5/gsap.min.js"
     ></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/indexRatings.js"></script>
 
     <title>NOTES - Home Page</title>
   </head>
@@ -38,11 +39,10 @@
   <body>
     <%-include("./partials/header") %>
 
-    <% const likesArr = [] %>
-
   <div class="my-resources-container">
 
-    <div style="margin: 120px 2.5%; width: 40%;" id="my-posts-slides" class="carousel slide" data-ride="carousel">
+    <div style="margin: 200px 2.5%; width: 40%;" id="my-posts-slides" class="carousel slide" data-ride="carousel">
+      <h1>My created posts</h1>
       <div class="carousel-inner">
 
         <% for(let i = 0; i < data.length; i ++) {%>
@@ -93,7 +93,7 @@
         </div>
 
         <footer style="font-size: 0.8rem" class="text-muted">
-         
+
         <div class="likes-section">
           <i id="<%= data[i].id %>"
           <% if(user.likes.includes(data[i].id)) {%>
@@ -158,19 +158,22 @@
           </form>
         </footer>
       </div>
-          <% } else {%>
-          <% likesArr.push(data[i]) %>
+
           <% }%>
         <% }%>
-        
+
+
+
       </div>
     </div>
 
 
-    <div style="margin: 120px 2.5%; width: 40%;" id="my-likes-slides" class="carousel slide" data-ride="carousel">
+    <div style="margin: 200px 2.5%; width: 40%;" id="my-likes-slides" class="carousel slide" data-ride="carousel">
+
+      <h1>My Liked posts</h1>
+
       <div class="carousel-inner">
-       <% for(let el of likesArr) {%>
-          <% if(el.owner_id === user.id) {%>
+        <% for(let i = 0; i < likesArr.length; i ++) {%>
              <% if(i === 0) {%>
               <div class="card carousel-item active"
              <% } else {%>
@@ -181,17 +184,17 @@
           <div>
             <img
               class="img-thumbnail"
-              src="<%= el.owner_profile_pic %>"
+              src="<%= likesArr[i].owner_profile_pic %>"
               alt="User profile picture"
             />
-            <p class="owner_name">Posted by: <%= el.owner_name %></p>
+            <p class="owner_name">Posted by: <%= likesArr[i].owner_name %></p>
           </div>
-          <% if(el.owner_id === user.id) { %>
+          <% if(likesArr[i].owner_id === user.id) { %>
           <div>
-            <a href="/api/resources/edit/<%= el.id %>"
+            <a href="/api/resources/edit/<%= likesArr[i].id %>"
               ><i class="far fa-edit"></i
             ></a>
-            <form action="/api/resources/delete/<%= el.id %>" method="POST">
+            <form action="/api/resources/delete/<%= likesArr[i].id %>" method="POST">
               <button type="submit">
                 <i class="far fa-trash-alt"></i>
               </button>
@@ -201,15 +204,15 @@
         </header>
         <div class="card-body">
           <content>
-            <a href="<%= el.url %>" target="#blank">
-              <h5 class="card-title"><%= el.title %></h5>
+            <a href="<%= likesArr[i].url %>" target="#blank">
+              <h5 class="card-title"><%= likesArr[i].title %></h5>
             </a>
-            <p class="card-text"><%= el.description %></p>
+            <p class="card-text"><%= likesArr[i].description %></p>
           </content>
 
           <img
             class="img-thumbnail"
-            src="<%= el.category_thumbnail %>"
+            src="<%= likesArr[i].category_thumbnail %>"
             width="100px"
             height="100px"
             alt="Category image"
@@ -217,72 +220,71 @@
         </div>
 
         <footer style="font-size: 0.8rem" class="text-muted">
-         
+
         <div class="likes-section">
-          <i id="<%= el.id %>"
-          <% if(user.likes.includes(el.id)) {%>
+          <i id="<%= likesArr[i].id %>"
+          <% if(user.likes.includes(likesArr[i].id)) {%>
             class="liked fas fa-heart"
           <% } else {%>
             class="not-liked fas fa-heart"
           <% }%>
           ></i>
-          <p><%= el.number_of_likes %></p>
+          <p><%= likesArr[i].number_of_likes %></p>
         </div>
 
-          <a href="/api/resources/<%= el.id %>"
+          <a href="/api/resources/<%= likesArr[i].id %>"
             ><i class="far fa-comment-dots"></i
           ></a>
-            <p style="margin-bottom: 0" id="avg_rating_of_<%= el.id %>">Avg. Rating: <%= el.average_rating %></p>
+            <p style="margin-bottom: 0" id="avg_rating_of_<%= likesArr[i].id %>">Avg. Rating: <%= likesArr[i].average_rating %></p>
           <form class="rating">
             <input
-              id="rating-5_<%= el.id %>"
+              id="rating-5_<%= likesArr[i].id %>"
               type="radio"
               name="rating"
               value="5"
-              <% for(rating of user.ratings) {%> <% if(rating[0] == el.id) { %> <% if(rating[1] == 5) { %> <%="checked" %> <% } %> <% } %> <% } %> />
-            <label for="rating-5_<%= el.id %>"
+              <% for(rating of user.ratings) {%> <% if(rating[0] == likesArr[i].id) { %> <% if(rating[1] == 5) { %> <%="checked" %> <% } %> <% } %> <% } %> />
+            <label for="rating-5_<%= likesArr[i].id %>"
               ><i class="fas fa-star"></i
             ></label>
             <input
-              id="rating-4_<%= el.id %>"
+              id="rating-4_<%= likesArr[i].id %>"
               type="radio"
               name="rating"
               value="4"
-              <% for(rating of user.ratings) {%> <% if(rating[0] == el.id) { %> <% if(rating[1] == 4) { %> <%="checked" %> <% } %> <% } %> <% } %> />
-            <label for="rating-4_<%= el.id %>"
+              <% for(rating of user.ratings) {%> <% if(rating[0] == likesArr[i].id) { %> <% if(rating[1] == 4) { %> <%="checked" %> <% } %> <% } %> <% } %> />
+            <label for="rating-4_<%= likesArr[i].id %>"
               ><i class="fas fa-star"></i
             ></label>
             <input
-              id="rating-3_<%= el.id %>"
+              id="rating-3_<%= likesArr[i].id %>"
               type="radio"
               name="rating"
               value="3"
-              <% for(rating of user.ratings) {%> <% if(rating[0] == el.id) { %> <% if(rating[1] == 3) { %> <%="checked" %> <% } %> <% } %> <% } %> />
-            <label for="rating-3_<%= el.id %>"
+              <% for(rating of user.ratings) {%> <% if(rating[0] == likesArr[i].id) { %> <% if(rating[1] == 3) { %> <%="checked" %> <% } %> <% } %> <% } %> />
+            <label for="rating-3_<%= likesArr[i].id %>"
               ><i class="fas fa-star"></i
             ></label>
             <input
-              id="rating-2_<%= el.id %>"
+              id="rating-2_<%= likesArr[i].id %>"
               type="radio"
               name="rating"
               value="2"
-              <% for(rating of user.ratings) {%> <% if(rating[0] == el.id) { %> <% if(rating[1] == 2) { %> <%="checked" %> <% } %> <% } %> <% } %> />
-            <label for="rating-2_<%= el.id %>"
+              <% for(rating of user.ratings) {%> <% if(rating[0] == likesArr[i].id) { %> <% if(rating[1] == 2) { %> <%="checked" %> <% } %> <% } %> <% } %> />
+            <label for="rating-2_<%= likesArr[i].id %>"
               ><i class="fas fa-star"></i
             ></label>
             <input
-              id="rating-1_<%= el.id %>"
+              id="rating-1_<%= likesArr[i].id %>"
               type="radio"
               name="rating"
               value="1"
-              <% for(rating of user.ratings) {%> <% if(rating[0] == el.id) { %> <% if(rating[1] == 1) { %> <%="checked" %> <% } %> <% } %> <% } %> />
-            <label for="rating-1_<%= el.id %>"
+              <% for(rating of user.ratings) {%> <% if(rating[0] == likesArr[i].id) { %> <% if(rating[1] == 1) { %> <%="checked" %> <% } %> <% } %> <% } %> />
+            <label for="rating-1_<%= likesArr[i].id %>"
               ><i class="fas fa-star"></i
             ></label>
           </form>
         </footer>
       </div>
-          <% }%>
         <% }%>
       </div>
     </div>

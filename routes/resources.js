@@ -38,7 +38,17 @@ module.exports = db => {
 
     databaseFuncs.getAllResources(db, options, 60).then(data => {
       const user = res.locals.user;
-      res.render("myResources", { data, user });
+      const likesArr = [];
+
+      for (const el of data) {
+        if (el.owner_id !== user.id) {
+          likesArr.push(el);
+        }
+      }
+
+      console.log(likesArr);
+
+      res.render("myResources", { data, user, likesArr });
       res.status(200);
     });
   });
