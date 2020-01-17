@@ -252,15 +252,20 @@ body {
     }
   }
 
-  .edit-post-container {
-    display: flex;
-    justify-content: center;
-    height: 40rem;
-
+  .new-post-container {
     header {
       display: flex;
       justify-content: center;
     }
+  }
+
+  .edit-post-container,
+  .new-post-container {
+    display: flex;
+    justify-content: center;
+    height: 40rem;
+
+
 
     content {
       height: 100%;
