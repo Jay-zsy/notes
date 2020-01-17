@@ -90,15 +90,19 @@
           </div>
         </form>
         <footer class="text-muted">
+          
           <div class="likes-section">
-            <i id="<%= data[0].id %>" <% if(user.likes.includes(data[0].id)) {%>
-              class="liked fas fa-heart" <% } else { %> class="not-liked fas
-              fa-heart" <% } %>></i
-            >
-            <p><%= data[0].number_of_likes %></p>
-          </div>
+          <i id="<%= data[0].id %>"
+          <% if(user.likes.includes(data[0].id)) {%>
+            class="liked fas fa-heart"
+          <% } else {%>
+            class="not-liked fas fa-heart"
+          <% }%>
+          ></i>
+          <p><%= data[0].number_of_likes %></p>
+        </div>
 
-          <div>Avg. Rating: <%= data[0].average_rating %></div>
+          <p style="margin-bottom: 0" id="avg_rating_of_<%= data[0].id %>">Avg. Rating: <%= data[0].average_rating %></p>
           <form class="rating">
             <input
               id="rating-5_<%= el.id %>"

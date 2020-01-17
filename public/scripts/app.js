@@ -1,21 +1,4 @@
 $(() => {
-  //load comments
-
-  // $.ajax({
-  //   method: "GET",
-  //   url: "/api/users"
-  // }).done((users) => {
-  //   for(user of users) {
-  //     $("<div>").text(user.name).appendTo($("body"));
-  //   }
-  // });
-  // $(".fa-trash-alt").click(function() {
-  //   console.log(this.id);
-  //   $.ajax({
-  //     method: "POST",
-  //     url: `/api/resources/delete/${this.id}`}).done();
-  // });
-
   //edit profile pages
   $("#edit-name").click(function() {
     $(".user-name-input").toggle(400);
@@ -53,29 +36,5 @@ $(() => {
           .addClass("not-liked");
       });
     }
-  });
-  //rating fn
-  $(".fa-star").click(function() {
-    const resource_id = $(this)
-      .parent()
-      .attr("for")
-      .split("_")[1];
-
-    console.log(resource_id);
-
-    const rating = $(this)
-      .parent()
-      .attr("for")
-      .split("-")[1][0];
-
-    $.ajax({
-      method: "POST",
-      url: `/api/resources/${resource_id}/ratings`,
-      data: { rating }
-    }).done(averageRating => {
-      $(`#avg_rating_of_${resource_id}`).text(
-        `Avg. Rating: ${averageRating.round}`
-      );
-    });
   });
 });

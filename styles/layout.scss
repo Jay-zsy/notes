@@ -166,7 +166,7 @@ body {
     .likes-section {
       width: 10%;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-content: center;
 
       .fas {
@@ -180,6 +180,7 @@ body {
 
       p {
         margin-bottom: 0;
+        margin-left: 0.4rem
       }
     }
 
@@ -320,6 +321,8 @@ body {
       .card-body {
         height: 300px;
       }
+
+
     }
   }
 
@@ -402,5 +405,10 @@ body {
       padding-left: 15px;
       padding-right: 15px;
     }
+  }
+
+  .my-resources-container {
+    display: flex;
+    justify-content: space-around;
   }
 }

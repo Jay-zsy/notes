@@ -1,9 +1,10 @@
 $(() => {
+  const resource_id = window.location.href.split("/").reverse()[0];
+
   $("#postComment").submit(function(event) {
     event.preventDefault();
 
     const message = $("#commentText").val();
-    const resource_id = window.location.href.split("/").reverse()[0];
 
     $.ajax({
       method: "POST",
@@ -17,8 +18,6 @@ $(() => {
 
   ///helper functions
   const loadComments = function() {
-    const resource_id = window.location.href.split("/").reverse()[0];
-
     $.ajax(`/api/resources/${resource_id}/comments`).then(res => {
       renderComments(res);
     });
@@ -51,4 +50,21 @@ $(() => {
       $("#all-comments").append(createCommentElement(comment));
     }
   };
+
+  $(".fa-star").click(function() {
+    const rating = $(this)
+      .parent()
+      .attr("for")
+      .split("-")[1][0];
+
+    $.ajax({
+      method: "POST",
+      url: `/api/resources/${resource_id}/ratings`,
+      data: { rating }
+    }).done(averageRating => {
+      $(`#avg_rating_of_${resource_id}`).text(
+        `Avg. Rating: ${averageRating.round}`
+      );
+    });
+  });
 });
