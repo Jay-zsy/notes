@@ -1,4 +1,4 @@
-LHL Mid term project
+LHL Mid term project (Resource Wall)
 =========
 
 ## Getting Started
