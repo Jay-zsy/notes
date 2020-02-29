@@ -1,10 +1,14 @@
 LHL Mid term project (Resource Wall)
 =========
 
+## About
+
+A learning resoure sharing platform for students
+
 ## Getting Started
 
-1. Use foo@hotmail.com and password to sign in
-2. Use bar@hotmail.com and password to sign in
+1. https://notes-recource-wall.herokuapp.com/
+2. Use foo@hotmail.com or bar@hotmail.com and password to sign in
 
 ## Features
 
